@@ -8,7 +8,7 @@
     <name>planit-dev</name>
 
     <properties>
-        <spring.version>3.2.0.RELEASE</spring.version>
+        <spring.version>4.0.0.RELEASE</spring.version>
     </properties>
 
     <dependencies>
@@ -56,6 +56,13 @@
             <version>4.8.2</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
     </dependencies>
 
     <build>
