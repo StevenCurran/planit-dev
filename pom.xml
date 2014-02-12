@@ -63,6 +63,19 @@
             <version>1.9.13</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.brickred</groupId>
+            <artifactId>socialauth</artifactId>
+            <version>4.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.brickred</groupId>
+            <artifactId>socialauth-spring</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

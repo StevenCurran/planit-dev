@@ -2,11 +2,13 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <context:component-scan base-package="com.planit.mvc"/>
     <mvc:annotation-driven />
@@ -16,6 +18,31 @@
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <util:properties id="socialAuthProperties" location="/WEB-INF/oauth.properties"></util:properties>
+
+    <bean id="socialAuthConfig" class="org.brickred.socialauth.SocialAuthConfig">
+        <property name="applicationProperties"><ref bean="socialAuthProperties"/></property>
+    </bean>
+
+    <bean id="socialAuthManager" class="org.brickred.socialauth.SocialAuthManager" scope="session">
+        <property name="socialAuthConfig"><ref bean="socialAuthConfig"/></property>
+        <aop:scoped-proxy/>
+    </bean>
+
+    <bean id="socialAuthTemplate" class="org.brickred.socialauth.spring.bean.SocialAuthTemplate" scope="session">
+        <aop:scoped-proxy/>
+    </bean>
+
+    <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
+        <constructor-arg value="http://localhost:8080/fb" />
+        <constructor-arg value="authSuccess.do" />
+        <constructor-arg value="jsp/accessDenied.jsp" />
+    </bean>
+
+
+
+
 
 
 
