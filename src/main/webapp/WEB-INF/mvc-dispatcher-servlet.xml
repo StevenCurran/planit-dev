@@ -35,8 +35,8 @@
     </bean>
 
     <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
-        <constructor-arg value="http://localhost:8080/fb" />
-        <constructor-arg value="authSuccess.do" />
+        <constructor-arg value="http://localhost:8080" />
+        <constructor-arg value="authSuccess " />
         <constructor-arg value="jsp/accessDenied.jsp" />
     </bean>
 
