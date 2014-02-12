@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="planit-dev:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="planit-dev.war">
+      <element id="artifact" artifact-name="planit-dev:war exploded" />
+    </root>
+  </artifact>
+</component>
