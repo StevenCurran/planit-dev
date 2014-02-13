@@ -75,6 +75,12 @@
             <version>2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.restfb</groupId>
+            <artifactId>restfb</artifactId>
+            <version>1.6.12</version>
+        </dependency>
+
 
     </dependencies>
 

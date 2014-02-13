@@ -9,12 +9,19 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.restfb.Connection;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.types.Event;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.Contact;
 import org.brickred.socialauth.SocialAuthManager;
+import org.brickred.socialauth.provider.FacebookImpl;
 import org.brickred.socialauth.spring.bean.SocialAuthTemplate;
+import org.brickred.socialauth.util.AccessGrant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -29,14 +36,16 @@ public class FacebookSuccessController {
     private SocialAuthTemplate socialAuthTemplate;
 
     @RequestMapping(value = "/authSuccess")
-    public List<Contact> getRedirectURL(final HttpServletRequest request)
+    public List<Event> getRedirectURL(final HttpServletRequest request)
             throws Exception {
 
         List<Contact> contactsList = new ArrayList<>();
         SocialAuthManager manager = socialAuthTemplate.getSocialAuthManager();
         AuthProvider provider = manager.getCurrentAuthProvider();
 
+        /*
         contactsList = provider.getContactList();
+
         if (contactsList != null && contactsList.size() > 10) {
             contactsList = contactsList.subList(1,10);
             for (Contact p : contactsList) {
@@ -47,7 +56,12 @@ public class FacebookSuccessController {
             }
         }
 
+*/
+        FacebookClient facebookClient = new DefaultFacebookClient(provider.getAccessGrant().getKey());
+        Connection<Event> myEvents = facebookClient.fetchConnection("me/events", Event.class, Parameter.with("fields", "description, name, location"));
+        List<Event> events = myEvents.getData();
 
-        return contactsList;
+
+        return events;
     }
 }
