@@ -14,10 +14,13 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.Parameter;
 import com.restfb.types.Event;
+import com.restfb.types.Page;
+import com.restfb.types.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.brickred.socialauth.AuthProvider;
 import org.brickred.socialauth.Contact;
+import org.brickred.socialauth.Permission;
 import org.brickred.socialauth.SocialAuthManager;
 import org.brickred.socialauth.provider.FacebookImpl;
 import org.brickred.socialauth.spring.bean.SocialAuthTemplate;
@@ -57,11 +60,14 @@ public class FacebookSuccessController {
         }
 
 */
+
         FacebookClient facebookClient = new DefaultFacebookClient(provider.getAccessGrant().getKey());
         Connection<Event> myEvents = facebookClient.fetchConnection("me/events", Event.class, Parameter.with("fields", "description, name, location"));
         List<Event> events = myEvents.getData();
 
+        User user = facebookClient.fetchObject("me", User.class);
 
+        provider.logout();
         return events;
     }
 }
