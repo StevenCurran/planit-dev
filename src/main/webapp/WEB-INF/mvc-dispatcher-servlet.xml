@@ -19,7 +19,7 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <util:properties id="socialAuthProperties" location="/WEB-INF/oauth.properties"></util:properties>
+    <util:properties id="socialAuthProperties" location="/WEB-INF/oauth_consumer.properties"></util:properties>
 
     <bean id="socialAuthConfig" class="org.brickred.socialauth.SocialAuthConfig">
         <property name="applicationProperties"><ref bean="socialAuthProperties"/></property>
