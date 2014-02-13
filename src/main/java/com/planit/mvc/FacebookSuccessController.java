@@ -16,12 +16,10 @@ import com.restfb.Parameter;
 import com.restfb.types.Event;
 import com.restfb.types.Page;
 import com.restfb.types.User;
+import com.socialauth.plugin.EventPlugin;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.brickred.socialauth.AuthProvider;
-import org.brickred.socialauth.Contact;
-import org.brickred.socialauth.Permission;
-import org.brickred.socialauth.SocialAuthManager;
+import org.brickred.socialauth.*;
 import org.brickred.socialauth.provider.FacebookImpl;
 import org.brickred.socialauth.spring.bean.SocialAuthTemplate;
 import org.brickred.socialauth.util.AccessGrant;
@@ -46,28 +44,11 @@ public class FacebookSuccessController {
         SocialAuthManager manager = socialAuthTemplate.getSocialAuthManager();
         AuthProvider provider = manager.getCurrentAuthProvider();
 
-        /*
-        contactsList = provider.getContactList();
-
-        if (contactsList != null && contactsList.size() > 10) {
-            contactsList = contactsList.subList(1,10);
-            for (Contact p : contactsList) {
-                if (!StringUtils.hasLength(p.getFirstName())
-                        && !StringUtils.hasLength(p.getLastName())) {
-                    p.setFirstName(p.getDisplayName());
-                }
-            }
+        List<Event> events = new ArrayList<>();
+        if(provider.isSupportedPlugin(EventPlugin.class)){
+            EventPlugin ep = provider.getPlugin(EventPlugin.class);
+            events = ep.getEvents();
         }
-
-*/
-
-        FacebookClient facebookClient = new DefaultFacebookClient(provider.getAccessGrant().getKey());
-        Connection<Event> myEvents = facebookClient.fetchConnection("me/events", Event.class, Parameter.with("fields", "description, name, location"));
-        List<Event> events = myEvents.getData();
-
-        User user = facebookClient.fetchObject("me", User.class);
-
-        provider.logout();
         return events;
     }
 }
