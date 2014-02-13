@@ -37,7 +37,8 @@ public class FacebookSuccessController {
         AuthProvider provider = manager.getCurrentAuthProvider();
 
         contactsList = provider.getContactList();
-        if (contactsList != null && contactsList.size() > 0) {
+        if (contactsList != null && contactsList.size() > 10) {
+            contactsList = contactsList.subList(1,10);
             for (Contact p : contactsList) {
                 if (!StringUtils.hasLength(p.getFirstName())
                         && !StringUtils.hasLength(p.getLastName())) {
@@ -45,8 +46,6 @@ public class FacebookSuccessController {
                 }
             }
         }
-
-        
 
         return contactsList;
     }
