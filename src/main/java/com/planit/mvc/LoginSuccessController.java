@@ -31,24 +31,26 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-public class FacebookSuccessController {
+public class LoginSuccessController {
 
     @Autowired
     private SocialAuthTemplate socialAuthTemplate;
 
     @RequestMapping(value = "/authSuccess")
-    public List<Event> getRedirectURL(final HttpServletRequest request)
+    public Profile getRedirectURL(final HttpServletRequest request)
             throws Exception {
 
         List<Contact> contactsList = new ArrayList<>();
         SocialAuthManager manager = socialAuthTemplate.getSocialAuthManager();
         AuthProvider provider = manager.getCurrentAuthProvider();
 
+/*
         List<Event> events = new ArrayList<>();
-        if(provider.isSupportedPlugin(EventPlugin.class)){
+        if(provider != null && provider.isSupportedPlugin(EventPlugin.class)){
             EventPlugin ep = provider.getPlugin(EventPlugin.class);
             events = ep.getEvents();
         }
-        return events;
+        */
+        return provider.getUserProfile();
     }
 }
