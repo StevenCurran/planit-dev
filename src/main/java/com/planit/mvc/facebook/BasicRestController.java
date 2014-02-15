@@ -1,4 +1,4 @@
-package com.planit.mvc;
+package com.planit.mvc.facebook;
 
 import com.plaint.domainobjs.Person;
 import org.springframework.http.MediaType;

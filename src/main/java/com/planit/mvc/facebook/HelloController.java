@@ -1,4 +1,4 @@
-package com.planit.mvc;
+package com.planit.mvc.facebook;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

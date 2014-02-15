@@ -1,4 +1,4 @@
-package com.planit.mvc;
+package com.planit.mvc.facebook;
 
 /**
  * Created by Steven Curran on 12/02/14.
@@ -42,7 +42,9 @@ public class LoginSuccessController {
 
         List<Contact> contactsList = new ArrayList<>();
         SocialAuthManager manager = socialAuthTemplate.getSocialAuthManager();
+        manager.setPermission("google", Permission.ALL);
         AuthProvider provider = manager.getCurrentAuthProvider();
+        provider.setPermission(Permission.AUTHENTICATE_ONLY);
 
 /*
         List<Event> events = new ArrayList<>();
