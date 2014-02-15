@@ -3,6 +3,9 @@ package com.planit.mvc.google;
 import com.plaint.domainobjs.Person;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,13 +43,15 @@ public class GoogleController {
     private static final String CLIENT_ID = "115023261213-vdpubj7qf78pu1jbk85t3pbt329fu4vv.apps.googleusercontent.com";
     private static final String CLIENT_SECRET = "-D-uoU496-0C868uId3NhlW4";
 
-    //private static final String CALLBACK_URI = "http://localhost:8080/googlelogin/oauthCallback";
-    private static final String CALLBACK_URI = "http://planit-dev.herokuapp.com/googlelogin/oauthCallback";
+    private static final String CALLBACK_URI = "http://localhost:8080/googlelogin/oauthCallback";
+    //private static final String CALLBACK_URI = "http://planit-dev.herokuapp.com/googlelogin/oauthCallback";
 
     private static Collection<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email;https://www.googleapis.com/auth/calendar".split(";"));
     private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    private static final HttpClient client = HttpClientBuilder.create().build();
+
 
     private String stateToken;
     private GoogleAuthorizationCodeFlow flow;
@@ -58,7 +63,8 @@ public class GoogleController {
 
         generateStateToken();
 
-        return "redirect:/" + buildLoginUrl();
+        return "redirect:" + buildLoginUrl();
+
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/oauthCallback")
