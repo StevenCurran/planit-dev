@@ -3,8 +3,10 @@ package com.planit.mvc.google;
 import com.plaint.domainobjs.Person;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -29,7 +31,7 @@ import java.util.Collection;
 /**
  * Created by Steven on 15/02/14.
  */
-@RestController
+@Controller
 @RequestMapping("/googlelogin")
 public class GoogleController {
 
@@ -60,6 +62,7 @@ public class GoogleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/oauthCallback")
+    @ResponseBody
     public String callbackSuccess(HttpServletRequest request,HttpServletResponse response){
         //session.setAttribute("state", helper.getStateToken());
         String attribute = (String) request.getParameter("code");
