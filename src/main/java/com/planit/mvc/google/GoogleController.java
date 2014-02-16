@@ -1,6 +1,10 @@
 package com.planit.mvc.google;
 
 import com.ProjectUtils;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.Events;
 import com.plaint.domainobjs.Person;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,13 +27,16 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.calendar.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -48,7 +55,8 @@ public class GoogleController {
     private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-    private static final HttpClient client = HttpClientBuilder.create().build();
+
+    private Calendar calendarClient;
 
 
     private String stateToken;
@@ -68,10 +76,12 @@ public class GoogleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/oauthCallback")
     @ResponseBody
-    public String callbackSuccess(HttpServletRequest request,HttpServletResponse response){
-        //session.setAttribute("state", helper.getStateToken());
+    public List<Events> callbackSuccess(HttpServletRequest request,HttpServletResponse response){
         String attribute = (String) request.getParameter("code");
         String jsonResp = "";
+        CalendarList feed = null;
+        List<Events> events = new ArrayList<>();
+        /*
         try {
             jsonResp = getUserInfoJson(attribute);
             LOG.info(jsonResp);
@@ -79,12 +89,29 @@ public class GoogleController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
 
-        Person p = new Person();
-        p.setFirstName("Steven");
-        return jsonResp;
+        //perform some setup of the calendar information.
+        try {
+            GoogleTokenResponse responseVar = flow.newTokenRequest(request.getParameter("code")).setRedirectUri(CALLBACK_URI).execute();
+            Credential credential = flow.createAndStoreCredential(responseVar, null);
+            calendarClient = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
+
+
+           feed = calendarClient.calendarList().list().execute();
+
+
+
+            for (CalendarListEntry entry : feed.getItems()){
+                events.add(calendarClient.events().list(entry.getId()).execute());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return events;
     }
-
 
     public String buildLoginUrl() {
 
