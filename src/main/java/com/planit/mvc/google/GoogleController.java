@@ -1,5 +1,6 @@
 package com.planit.mvc.google;
 
+import com.ProjectUtils;
 import com.plaint.domainobjs.Person;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,10 +43,7 @@ public class GoogleController {
 
     private static final String CLIENT_ID = "115023261213-vdpubj7qf78pu1jbk85t3pbt329fu4vv.apps.googleusercontent.com";
     private static final String CLIENT_SECRET = "-D-uoU496-0C868uId3NhlW4";
-
-    private static final String CALLBACK_URI = "http://localhost:8080/googlelogin/oauthCallback";
-    //private static final String CALLBACK_URI = "http://planit-dev.herokuapp.com/googlelogin/oauthCallback";
-
+    private static String CALLBACK_URI = "";
     private static Collection<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email;https://www.googleapis.com/auth/calendar".split(";"));
     private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -59,6 +57,7 @@ public class GoogleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     public String homeMethod(){
+        CALLBACK_URI = ProjectUtils.getBaseUrl() + "/googlelogin/oauthCallback";
         flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, SCOPE).build();
 
         generateStateToken();

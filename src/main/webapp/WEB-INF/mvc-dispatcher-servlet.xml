@@ -36,7 +36,7 @@
 
 
     <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
-        <constructor-arg value="http://planit-dev.herokuapp.com" />
+        <constructor-arg value="#{T(com.ProjectUtils).getBaseUrl()}" />
         <constructor-arg value="authSuccess" />
         <constructor-arg value="jsp/accessDenied.jsp" />
     </bean>

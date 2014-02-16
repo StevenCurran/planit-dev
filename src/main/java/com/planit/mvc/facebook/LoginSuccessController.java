@@ -42,10 +42,7 @@ public class LoginSuccessController {
 
         List<Contact> contactsList = new ArrayList<>();
         SocialAuthManager manager = socialAuthTemplate.getSocialAuthManager();
-        manager.setPermission("google", Permission.ALL);
         AuthProvider provider = manager.getCurrentAuthProvider();
-        provider.setPermission(Permission.AUTHENTICATE_ONLY);
-
 /*
         List<Event> events = new ArrayList<>();
         if(provider != null && provider.isSupportedPlugin(EventPlugin.class)){
