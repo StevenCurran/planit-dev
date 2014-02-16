@@ -12,7 +12,7 @@
 
     <context:component-scan base-package="com.planit.mvc.*"/>
 
-    <mvc:resources mapping="/images/*" location="/resources/"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
     <!--https://github.com/priyatam/springmvc-bootstrap-showcase/tree/master/src/main/webapp  base resources off this.-->
     <mvc:annotation-driven/>
 
