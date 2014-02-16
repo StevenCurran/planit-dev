@@ -1,6 +1,6 @@
 package com.planit.mvc.google;
 
-import com.google.api.services.calendar.model.Events;
+import com.google.api.services.calendar.model.Event;
 
 import java.util.List;
 
@@ -11,30 +11,23 @@ import java.util.List;
 //Class to async save to DB. May have to change this to callable in the future....
 public class EventPersistenceTask implements Runnable {
 
-    private final List<Events> eventInput;
+    private final List<Event> eventInput;
 
-    public EventPersistenceTask(final List<Events> eventInput){
+    public EventPersistenceTask(final List<Event> eventInput) {
         this.eventInput = eventInput;
     }
-
-
 
 
     @Override
     public void run() {
 
         //save events in here....
-        try {
-            Thread.sleep(10000);
-
-            for (Events e : eventInput){
-                System.out.println(e.getSummary());
-            }
-
-
-        } catch (InterruptedException e) {
-
-
+        for (Event event : eventInput) {
+            System.out.println(event.getSummary());
+            System.out.println(event.getLocation());
+            System.out.println(event.getOriginalStartTime());
+            System.out.println(event.getEnd());
+            System.out.println("_____________________");
         }
 
     }

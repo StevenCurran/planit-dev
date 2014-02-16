@@ -12,9 +12,11 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,10 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -74,20 +73,11 @@ public class GoogleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/oauthCallback")
     @ResponseBody
-    public List<Events> callbackSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public List<Event> callbackSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String attribute = (String) request.getParameter("code");
         String jsonResp = "";
         CalendarList feed = null;
-        List<Events> events = new ArrayList<>();
-        /*
-        try {
-            jsonResp = getUserInfoJson(attribute);
-            LOG.info(jsonResp);
-            LOG.debug(jsonResp);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
+        List<Event> events = new ArrayList<>();
 
         //perform some setup of the calendar information.
         GoogleTokenResponse responseVar = flow.newTokenRequest(request.getParameter("code")).setRedirectUri(CALLBACK_URI).execute();
@@ -98,8 +88,27 @@ public class GoogleController {
         feed = calendarClient.calendarList().list().execute();
 
 
-        for (CalendarListEntry entry : feed.getItems()) {
-            events.add(calendarClient.events().list(entry.getId()).execute());
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.add(java.util.Calendar.DATE, -7);
+        Date today = cal.getTime();
+        cal.add(java.util.Calendar.DATE, 30);
+
+
+        for (CalendarListEntry entry : feed.getItems()) { //This line is for multiple calendars. ie the acls with different colours.
+
+            Events eventsPerCalendar = calendarClient.events().list(entry.getId()).setSingleEvents(true).setTimeMin(new DateTime(today)).setTimeMax(new DateTime(cal.getTime())).execute();
+            List<Event> items = eventsPerCalendar.getItems();
+            for (Event e : items) {
+                if (e.getStart() == null) {
+                    continue;
+                }
+                if (e.getStart().getDateTime() == null) {
+                    continue;
+                }
+
+                events.add(e);
+            }
+
         }
 
         taskExecutor.execute(new EventPersistenceTask(events));
