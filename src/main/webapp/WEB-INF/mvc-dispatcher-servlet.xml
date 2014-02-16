@@ -12,9 +12,9 @@
 
     <context:component-scan base-package="com.planit.mvc.*"/>
 
-    <mvc:resources mapping="/images/*" location="/resources/" />
+    <mvc:resources mapping="/images/*" location="/resources/"/>
     <!--https://github.com/priyatam/springmvc-bootstrap-showcase/tree/master/src/main/webapp  base resources off this.-->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven/>
 
     <mvc:view-controller path="/" view-name="hello"/>
 
@@ -27,11 +27,15 @@
     <util:properties id="socialAuthProperties" location="/WEB-INF/oauth_consumer.properties"></util:properties>
 
     <bean id="socialAuthConfig" class="org.brickred.socialauth.SocialAuthConfig">
-        <property name="applicationProperties"><ref bean="socialAuthProperties"/></property>
+        <property name="applicationProperties">
+            <ref bean="socialAuthProperties"/>
+        </property>
     </bean>
 
     <bean id="socialAuthManager" class="org.brickred.socialauth.SocialAuthManager" scope="session">
-        <property name="socialAuthConfig"><ref bean="socialAuthConfig"/></property>
+        <property name="socialAuthConfig">
+            <ref bean="socialAuthConfig"/>
+        </property>
         <aop:scoped-proxy/>
     </bean>
 
@@ -41,10 +45,19 @@
 
 
     <bean id="socialAuthWebController" class="org.brickred.socialauth.spring.controller.SocialAuthWebController">
-        <constructor-arg value="#{T(com.ProjectUtils).getBaseUrl()}" />
-        <constructor-arg value="authSuccess" />
-        <constructor-arg value="jsp/accessDenied.jsp" />
+        <constructor-arg value="#{T(com.ProjectUtils).getBaseUrl()}"/>
+        <constructor-arg value="authSuccess"/>
+        <constructor-arg value="jsp/accessDenied.jsp"/>
     </bean>
+
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="WaitForTasksToCompleteOnShutdown" value="true"/>
+    </bean>
+
+
 
 
 </beans>

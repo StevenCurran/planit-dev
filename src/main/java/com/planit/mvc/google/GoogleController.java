@@ -1,21 +1,6 @@
 package com.planit.mvc.google;
 
 import com.ProjectUtils;
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.CalendarList;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.Events;
-import com.plaint.domainobjs.Person;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
@@ -28,6 +13,17 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.Events;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,6 +52,8 @@ public class GoogleController {
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
     private Calendar calendarClient;
 
 
@@ -64,9 +62,9 @@ public class GoogleController {
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
-    public String homeMethod(){
+    public String homeMethod() {
         CALLBACK_URI = ProjectUtils.getBaseUrl() + "/googlelogin/oauthCallback";
-        flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, SCOPE).build();
+        flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, SCOPE).build();
 
         generateStateToken();
 
@@ -76,7 +74,7 @@ public class GoogleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/oauthCallback")
     @ResponseBody
-    public List<Events> callbackSuccess(HttpServletRequest request,HttpServletResponse response){
+    public List<Events> callbackSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String attribute = (String) request.getParameter("code");
         String jsonResp = "";
         CalendarList feed = null;
@@ -92,23 +90,19 @@ public class GoogleController {
         */
 
         //perform some setup of the calendar information.
-        try {
-            GoogleTokenResponse responseVar = flow.newTokenRequest(request.getParameter("code")).setRedirectUri(CALLBACK_URI).execute();
-            Credential credential = flow.createAndStoreCredential(responseVar, null);
-            calendarClient = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
+        GoogleTokenResponse responseVar = flow.newTokenRequest(request.getParameter("code")).setRedirectUri(CALLBACK_URI).execute();
+        Credential credential = flow.createAndStoreCredential(responseVar, null);
+        calendarClient = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
 
 
-           feed = calendarClient.calendarList().list().execute();
+        feed = calendarClient.calendarList().list().execute();
 
 
-
-            for (CalendarListEntry entry : feed.getItems()){
-                events.add(calendarClient.events().list(entry.getId()).execute());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (CalendarListEntry entry : feed.getItems()) {
+            events.add(calendarClient.events().list(entry.getId()).execute());
         }
+
+        taskExecutor.execute(new EventPersistenceTask(events));
 
         return events;
     }
@@ -123,25 +117,26 @@ public class GoogleController {
     /**
      * Generates a secure state token
      */
-    private void generateStateToken(){
+    private void generateStateToken() {
 
         SecureRandom sr1 = new SecureRandom();
 
-        stateToken = "google;"+sr1.nextInt();
+        stateToken = "google;" + sr1.nextInt();
 
     }
 
     /**
      * Accessor for state token
      */
-    public String getStateToken(){
+    public String getStateToken() {
         return stateToken;
     }
 
     /**
      * Expects an Authentication Code, and makes an authenticated request for the user's profile information
-     * @return JSON formatted user profile information
+     *
      * @param authCode authentication code provided by google
+     * @return JSON formatted user profile information
      */
     public String getUserInfoJson(final String authCode) throws IOException {
 
