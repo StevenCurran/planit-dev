@@ -16,6 +16,8 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.0.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.0.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: javax.servlet:servlet-api:2.5" />
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:4.0.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
@@ -62,6 +64,7 @@
           <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.1" />
           <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.1" />
+          <element id="library" level="project" name="Maven: org.postgresql:postgresql:9.3-1100-jdbc41" />
         </element>
       </element>
     </root>
