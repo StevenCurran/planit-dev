@@ -4,7 +4,6 @@
 *.jar
 *.war
 *.ear
-target/
 .idea/
 */.idea/workspace.xml */.idea/tasks.xml
 .idea/artifacts/planit_dev_war_exploded.xml
