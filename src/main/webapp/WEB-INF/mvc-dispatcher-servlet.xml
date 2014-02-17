@@ -27,7 +27,7 @@
 
 
 
-    <!-- DB CONNECTION-->
+    <!-- DB CONNECTION
     <bean class="java.net.URI" id="dbUrl">
         <constructor-arg value="#{T(com.ProjectUtils).getDBUrl()}"/>
     </bean>
@@ -38,7 +38,7 @@
         <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
         <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
     </bean>
-
+-->
 
 
 
