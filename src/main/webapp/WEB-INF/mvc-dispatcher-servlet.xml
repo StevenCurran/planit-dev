@@ -18,12 +18,29 @@
 
     <mvc:view-controller path="/" view-name="hello"/>
 
-    <bean class="com.planit.optaplanner.PlannerRunner"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+
+
+
+    <!-- DB CONNECTION-->
+    <bean class="java.net.URI" id="dbUrl">
+        <constructor-arg value="#{T(com.ProjectUtils).getDBUrl()}"/>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
+        <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
+        <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
+    </bean>
+
+
+
 
     <util:properties id="socialAuthProperties" location="/WEB-INF/oauth_consumer.properties"></util:properties>
 
@@ -58,17 +75,6 @@
         <property name="WaitForTasksToCompleteOnShutdown" value="true"/>
     </bean>
 
-
-    <!-- DB CONNECTION -->
-    <bean class="java.net.URI" id="dbUrl">
-        <constructor-arg value="#{systemEnvironment['DATABASE_URL']}"/>
-    </bean>
-
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
-        <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
-        <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
-    </bean>
 
 
 </beans>
