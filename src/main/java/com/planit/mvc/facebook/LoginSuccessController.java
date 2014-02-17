@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.planit.optaplanner.Event;
 import org.brickred.socialauth.*;
 import org.brickred.socialauth.spring.bean.SocialAuthTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,21 @@ public class LoginSuccessController {
         */
         return provider.getUserProfile();
     }
+
+
+   @RequestMapping(value = "/fbevents")
+    public List<com.restfb.types.Event> getFbEvents(final HttpServletRequest request)throws Exception {
+
+        SocialAuthManager manager = socialAuthTemplate.getSocialAuthManager();
+        AuthProvider provider = manager.getCurrentAuthProvider();
+
+        List<com.restfb.types.Event> events = new ArrayList<>();
+        if(provider != null && provider.isSupportedPlugin(EventPlugin.class)){
+            EventPlugin ep = provider.getPlugin(EventPlugin.class);
+            events = ep.getEvents();
+        }
+
+        return events;
+    }
+
 }
