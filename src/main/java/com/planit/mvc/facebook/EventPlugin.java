@@ -1,4 +1,4 @@
-package com.socialauth.plugin;
+package com.planit.mvc.facebook;
 
 
 import com.restfb.types.Event;

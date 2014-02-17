@@ -1,4 +1,4 @@
-package com.socialauth.plugin;
+package com.planit.mvc.facebook;
 
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
@@ -7,15 +7,8 @@ import com.restfb.Parameter;
 import com.restfb.types.Event;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.brickred.socialauth.util.Constants;
-import org.brickred.socialauth.util.MethodType;
 import org.brickred.socialauth.util.ProviderSupport;
-import org.brickred.socialauth.util.Response;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
