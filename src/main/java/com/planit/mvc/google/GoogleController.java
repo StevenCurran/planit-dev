@@ -79,7 +79,6 @@ public class GoogleController {
         response.addHeader("authToken", request.getParameter("code"));
         response.addHeader("loginCookie", request.getCookies()[0].getName() + ":" + request.getCookies()[0].getValue()); // we may need this...
         this.authToken = request.getParameter("code");
-        System.out.println("Something in here?");
 
     }
 
