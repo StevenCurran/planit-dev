@@ -74,7 +74,6 @@ public class GoogleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/oauthCallback")
-    @ResponseBody
     public void callbackSuccess(HttpServletRequest request, HttpServletResponse response){
         response.addHeader("authToken", request.getParameter("code"));
         response.addHeader("loginCookie", request.getCookies()[0].getName() + ":" + request.getCookies()[0].getValue()); // we may need this...
@@ -83,6 +82,7 @@ public class GoogleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gcalEvents")
+    @ResponseBody
     public List<Event> getGcalEvents() throws IOException{
         String jsonResp = "";
         CalendarList feed = null;
