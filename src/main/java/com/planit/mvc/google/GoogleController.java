@@ -18,6 +18,8 @@ import com.google.api.services.calendar.model.CalendarList;
 import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import com.google.api.services.plus.Plus;
+import com.google.api.services.plus.model.Person;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding;
@@ -74,11 +76,18 @@ public class GoogleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/oauthCallback")
-    public void callbackSuccess(HttpServletRequest request, HttpServletResponse response){
+    @ResponseBody
+    public Person callbackSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.addHeader("authToken", request.getParameter("code"));
         response.addHeader("loginCookie", request.getCookies()[0].getName() + ":" + request.getCookies()[0].getValue()); // we may need this...
         this.authToken = request.getParameter("code");
 
+        GoogleTokenResponse responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
+        Credential credential = flow.createAndStoreCredential(responseVar, null);
+        Plus plus = new Plus(HTTP_TRANSPORT, JSON_FACTORY, credential);
+        Person profile = plus.people().get("me").execute();
+
+        return profile;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gcalEvents")

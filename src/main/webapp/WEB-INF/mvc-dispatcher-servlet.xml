@@ -74,5 +74,8 @@
     </bean>
 
 
+    <!--<import resource="component-scan-context.xml"/>-->
+    <import resource="persistence-config.xml"/>
+
 
 </beans>

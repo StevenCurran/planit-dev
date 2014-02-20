@@ -16,7 +16,13 @@
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration />
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <dependency>web mvc-dispatcher servlet context</dependency>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/persistence-config.xml</file>
+          <file>file://$MODULE_DIR$/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml</file>
+        </fileset>
+      </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
@@ -92,6 +98,7 @@
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.postgresql:postgresql:9.3-1100-jdbc41" level="project" />
+    <orderEntry type="library" name="Maven: com.google.apis:google-api-services-plus:v1-rev118-1.17.0-rc" level="project" />
   </component>
 </module>
 
