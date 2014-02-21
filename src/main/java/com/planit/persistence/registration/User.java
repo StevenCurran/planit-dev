@@ -2,8 +2,10 @@ package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
 
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Map;
 
 /**
@@ -11,6 +13,7 @@ import java.util.Map;
  */
 
 @Entity
+@Table(name="\"User\"")
 public class User {
 
     @Id
