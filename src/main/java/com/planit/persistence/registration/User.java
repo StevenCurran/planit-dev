@@ -1,11 +1,10 @@
 package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
+import org.hibernate.annotations.ValueGenerationType;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Map;
 
 /**
@@ -17,7 +16,9 @@ import java.util.Map;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     private String firstName;
     private String lastName;
     private String profileUrl;
