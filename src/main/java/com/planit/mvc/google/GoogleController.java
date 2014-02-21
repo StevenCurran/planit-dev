@@ -20,16 +20,19 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
+import com.planit.persistence.registration.UserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -58,11 +61,13 @@ public class GoogleController {
     private ThreadPoolTaskExecutor taskExecutor;
     private Calendar calendarClient;
 
-
     private String stateToken;
     private GoogleAuthorizationCodeFlow flow;
     private String authToken = "";
 
+
+    @Autowired
+    private UserRepository userRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     public String homeMethod() {
