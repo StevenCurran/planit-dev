@@ -20,6 +20,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
+import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -91,6 +92,9 @@ public class GoogleController {
         Credential credential = flow.createAndStoreCredential(responseVar, null);
         Plus plus = new Plus(HTTP_TRANSPORT, JSON_FACTORY, credential);
         Person profile = plus.people().get("me").execute();
+
+
+        userRepository.save(new User(profile));
 
         return profile;
     }
