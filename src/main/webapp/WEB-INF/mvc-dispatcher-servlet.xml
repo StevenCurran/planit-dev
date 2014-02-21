@@ -73,9 +73,13 @@
     </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <constructor-arg name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
+        <constructor-arg name="conProps">
+            <props>
+                <prop key="ssl">true</prop>
+            </props>
+        </constructor-arg>
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url"
-                  value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
         <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
         <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
     </bean>
@@ -92,6 +96,7 @@
                 <property name="database" value="POSTGRESQL"/>
             </bean>
         </property>
+
     </bean>
 
     <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
