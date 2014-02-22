@@ -76,7 +76,6 @@
         <constructor-arg name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
         <constructor-arg name="conProps">
             <props>
-
             </props>
         </constructor-arg>
         <property name="driverClassName" value="org.postgresql.Driver"/>

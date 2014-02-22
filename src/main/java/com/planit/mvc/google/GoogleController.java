@@ -94,6 +94,10 @@ public class GoogleController {
         Person profile = plus.people().get("me").execute();
 
 
+        if(userRepository.findByProviderId(profile.getId()) != null){
+            response.addHeader("valid_user", "true");
+            return profile;
+        }
         userRepository.save(new User(profile));
 
         return profile;
