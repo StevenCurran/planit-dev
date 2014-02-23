@@ -52,7 +52,7 @@ public class GoogleController {
 
     private static final String CLIENT_ID = "115023261213-vdpubj7qf78pu1jbk85t3pbt329fu4vv.apps.googleusercontent.com";
     private static final String CLIENT_SECRET = "-D-uoU496-0C868uId3NhlW4";
-    private static String CALLBACK_URI = "";
+    private static String CALLBACK_URI = "/oauthCallback";
     private static Collection<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email;https://www.googleapis.com/auth/calendar".split(";"));
     private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
@@ -65,6 +65,8 @@ public class GoogleController {
     private String stateToken;
     private GoogleAuthorizationCodeFlow flow;
     private String authToken = "";
+    GoogleTokenResponse responseVar = null;
+    Credential credential = null;
 
 
     @Autowired
@@ -88,8 +90,8 @@ public class GoogleController {
         response.addHeader("loginCookie", request.getCookies()[0].getName() + ":" + request.getCookies()[0].getValue()); // we may need this...
         this.authToken = request.getParameter("code");
 
-        GoogleTokenResponse responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
-        Credential credential = flow.createAndStoreCredential(responseVar, null);
+        responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
+        credential = flow.createAndStoreCredential(responseVar, null);
         Plus plus = new Plus(HTTP_TRANSPORT, JSON_FACTORY, credential);
         Person profile = plus.people().get("me").execute();
 
@@ -110,9 +112,10 @@ public class GoogleController {
         CalendarList feed = null;
         List<Event> events = new ArrayList<>();
 
+
         //perform some setup of the calendar information.
-        GoogleTokenResponse responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
-        Credential credential = flow.createAndStoreCredential(responseVar, null);
+     //   GoogleTokenResponse responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
+     //   Credential credential = flow.createAndStoreCredential(responseVar, null);
         calendarClient = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
 
 
