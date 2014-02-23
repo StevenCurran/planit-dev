@@ -65,8 +65,10 @@ public class GoogleController {
     private String stateToken;
     private GoogleAuthorizationCodeFlow flow;
     private String authToken = "";
-    GoogleTokenResponse responseVar = null;
-    Credential credential = null;
+    private GoogleTokenResponse responseVar = null;
+    private Credential credential = null;
+    private Person person = null;
+
 
 
     @Autowired
@@ -94,7 +96,7 @@ public class GoogleController {
         credential = flow.createAndStoreCredential(responseVar, null);
         Plus plus = new Plus(HTTP_TRANSPORT, JSON_FACTORY, credential);
         Person profile = plus.people().get("me").execute();
-
+        this.person = profile;
 
         if(userRepository.findByProviderId(profile.getId()) != null){
             response.addHeader("valid_user", "true");
@@ -145,7 +147,7 @@ public class GoogleController {
 
         }
 
-        taskExecutor.execute(new EventPersistenceTask(events));
+        taskExecutor.execute(new EventPersistenceTask(this.person, events));
 
         return events;
 
