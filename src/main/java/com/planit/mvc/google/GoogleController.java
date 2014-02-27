@@ -22,6 +22,8 @@ import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
+import com.planit.persistence.registration.events.EventRepository;
+import com.planit.persistence.registration.events.PlanitEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding;
@@ -73,6 +75,9 @@ public class GoogleController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     public String homeMethod() {
@@ -147,7 +152,7 @@ public class GoogleController {
 
         }
 
-        taskExecutor.execute(new EventPersistenceTask(this.person, events));
+        taskExecutor.execute(new EventPersistenceTask(this.person, PlanitEvent.getEvents(events), eventRepository));
 
         return events;
 

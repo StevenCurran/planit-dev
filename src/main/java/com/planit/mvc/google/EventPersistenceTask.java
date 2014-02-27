@@ -2,7 +2,10 @@ package com.planit.mvc.google;
 
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.plus.model.Person;
+import com.planit.persistence.registration.events.EventRepository;
+import com.planit.persistence.registration.events.PlanitEvent;
 
+import javax.sound.midi.Soundbank;
 import java.util.List;
 
 /**
@@ -12,24 +15,21 @@ import java.util.List;
 //Class to async save to DB. May have to change this to callable in the future....
 public class EventPersistenceTask implements Runnable {
 
-    private final List<Event> eventInput;
+    private final List<PlanitEvent> eventInput;
+    private final EventRepository eventRepository;
 
-    public EventPersistenceTask(final Person person, final List<Event> eventInput) {
+    public EventPersistenceTask(final Person person, final List<PlanitEvent> eventInput, EventRepository eventRepository) {
         this.eventInput = eventInput;
+        this.eventRepository = eventRepository;
     }
+
 
 
     @Override
     public void run() {
-
-        //save events in here....
-        for (Event event : eventInput) {
-            System.out.println(event.getSummary());
-            System.out.println(event.getLocation());
-            System.out.println(event.getOriginalStartTime());
-            System.out.println(event.getEnd());
-            System.out.println("_____________________");
-        }
+        System.out.println("Adding events...!!");
+        eventRepository.save(eventInput);
+        System.out.println("Events have been added!!");
 
     }
 }
