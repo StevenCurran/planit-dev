@@ -27,6 +27,9 @@ public class User {
     private String profileUrl;
     private String email;
     private String location;
+
+
+
     private String providerId;
 
     //Allow Git
@@ -62,6 +65,14 @@ public class User {
 
     public Set<PlanitEvent> getEvents() {
         return this.events;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
     }
 
 

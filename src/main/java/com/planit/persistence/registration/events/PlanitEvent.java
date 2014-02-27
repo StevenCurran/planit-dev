@@ -29,9 +29,9 @@ public class PlanitEvent {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "event_user", joinColumns = {
-            @JoinColumn(name = "providerid", nullable = false, updatable = false) },
-            inverseJoinColumns = { @JoinColumn(name = "id",
-                    nullable = false, updatable = false) })
+            @JoinColumn(name = "providerid", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "id",
+                    nullable = false, updatable = false)})
     private Set<User> attendees = new HashSet<>();
 
     //Allow git to work Linus u idiot
@@ -41,12 +41,12 @@ public class PlanitEvent {
 
     }
 
-    public PlanitEvent(Event googleEvent, Person p) {
+    public PlanitEvent(Event googleEvent, User p) {
         this.id = googleEvent.getId();
         this.name = googleEvent.getSummary();
         this.startDate = new Date(googleEvent.getStart().getDateTime().getValue());
         this.endDate = new Date(googleEvent.getEnd().getDateTime().getValue());
-        this.creator = p.getId();
+        this.creator = p.getProviderId();
 
 
         this.description = googleEvent.getDescription();
@@ -55,10 +55,11 @@ public class PlanitEvent {
 
     }
 
-    public static List<PlanitEvent> getEvents(List<Event> events, Person person){
+    public static List<PlanitEvent> getEvents(List<Event> events, User person) {
         List<PlanitEvent> pE = new ArrayList<>();
         for (Event event : events) {
             PlanitEvent p = new PlanitEvent(event, person);
+            p.addAttendee(person);
             pE.add(p);
         }
         return pE;
@@ -67,6 +68,11 @@ public class PlanitEvent {
 
     public Set<User> getCategories() {
         return this.attendees;
+    }
+
+    public void addAttendee(User u)
+    {
+        attendees.add(u);
     }
 
 

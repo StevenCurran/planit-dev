@@ -69,7 +69,7 @@ public class GoogleController {
     private String authToken = "";
     private GoogleTokenResponse responseVar = null;
     private Credential credential = null;
-    private Person person = null;
+    private User person = null;
 
 
 
@@ -101,13 +101,13 @@ public class GoogleController {
         credential = flow.createAndStoreCredential(responseVar, null);
         Plus plus = new Plus(HTTP_TRANSPORT, JSON_FACTORY, credential);
         Person profile = plus.people().get("me").execute();
-        this.person = profile;
+        this.person = new User(profile);
 
         if(userRepository.findByProviderId(profile.getId()) != null){
             response.addHeader("valid_user", "true");
             return profile;
         }
-        userRepository.save(new User(profile));
+        userRepository.save(this.person);
 
         return profile;
     }

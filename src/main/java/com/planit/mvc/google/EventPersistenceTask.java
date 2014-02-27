@@ -2,6 +2,7 @@ package com.planit.mvc.google;
 
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.plus.model.Person;
+import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.events.EventRepository;
 import com.planit.persistence.registration.events.PlanitEvent;
 
@@ -18,11 +19,10 @@ public class EventPersistenceTask implements Runnable {
     private final List<PlanitEvent> eventInput;
     private final EventRepository eventRepository;
 
-    public EventPersistenceTask(final Person person, final List<PlanitEvent> eventInput, EventRepository eventRepository) {
+    public EventPersistenceTask(final User person, final List<PlanitEvent> eventInput, EventRepository eventRepository) {
         this.eventInput = eventInput;
         this.eventRepository = eventRepository;
     }
-
 
 
     @Override
