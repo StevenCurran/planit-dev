@@ -152,7 +152,7 @@ public class GoogleController {
 
         }
 
-        taskExecutor.execute(new EventPersistenceTask(this.person, PlanitEvent.getEvents(events), eventRepository));
+        taskExecutor.execute(new EventPersistenceTask(this.person, PlanitEvent.getEvents(events, this.person), eventRepository));
 
         return events;
 
