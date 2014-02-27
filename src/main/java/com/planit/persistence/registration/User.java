@@ -2,12 +2,10 @@ package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
 import com.planit.persistence.registration.events.PlanitEvent;
-import org.hibernate.annotations.ValueGenerationType;
 
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -19,7 +17,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    private String id;
+    private String userId;
 
     private String firstName;
     private String lastName;
@@ -46,7 +44,7 @@ public class User {
         this.profileUrl = profileUrl;
         this.email = email;
         this.location = location;
-        this.id = providerId;
+        this.userId = providerId;
 
     }
 
@@ -58,7 +56,7 @@ public class User {
         if (person.getPlacesLived() != null) {
             this.location = person.getPlacesLived().get(0).getValue();
         }
-        this.id = person.getId();
+        this.userId = person.getId();
     }
 
 
@@ -67,11 +65,11 @@ public class User {
     }
 
     public String getProviderId() {
-        return id;
+        return userId;
     }
 
     public void setProviderId(String providerId) {
-        this.id = providerId;
+        this.userId = providerId;
     }
 
 

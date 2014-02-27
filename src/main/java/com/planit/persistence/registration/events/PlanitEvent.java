@@ -2,7 +2,6 @@ package com.planit.persistence.registration.events;
 
 import com.google.api.services.calendar.model.Event;
 import com.planit.persistence.registration.User;
-import com.google.api.services.plus.model.Person;
 
 import javax.persistence.*;
 import java.util.*;
@@ -15,7 +14,7 @@ import java.util.*;
 public class PlanitEvent {
 
     @Id
-    private String id;
+    private String eventId;
 
     private String name;
     private Date startDate;
@@ -29,12 +28,11 @@ public class PlanitEvent {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "event_user", joinColumns = {
-            @JoinColumn(name = "id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "id",
+            @JoinColumn(name = "eventId", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "userId",
                     nullable = false, updatable = false)})
-    private Set<User> attendees = new HashSet<>();
 
-    //Allow git to work Linus u idiot
+    private Set<User> attendees = new HashSet<>();
 
 
     public PlanitEvent() {
@@ -42,7 +40,7 @@ public class PlanitEvent {
     }
 
     public PlanitEvent(Event googleEvent, User p) {
-        this.id = googleEvent.getId();
+        this.eventId = googleEvent.getId();
         this.name = googleEvent.getSummary();
         this.startDate = new Date(googleEvent.getStart().getDateTime().getValue());
         this.endDate = new Date(googleEvent.getEnd().getDateTime().getValue());
