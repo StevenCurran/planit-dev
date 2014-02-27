@@ -29,6 +29,8 @@ public class User {
     private String location;
     private String providerId;
 
+    //Allow Git
+
     private Set<PlanitEvent> events = new HashSet<>();
 
     protected User() {

@@ -28,6 +28,8 @@ public class PlanitEvent {
 
     private Set<User> attendees = new HashSet<>();
 
+    //Allow git to work Linus u idiot
+
 
     public PlanitEvent() {
 
