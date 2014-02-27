@@ -1,11 +1,14 @@
 package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
+import com.planit.persistence.registration.events.PlanitEvent;
 import org.hibernate.annotations.ValueGenerationType;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Steven on 20/02/14.
@@ -26,10 +29,11 @@ public class User {
     private String location;
     private String providerId;
 
+    private Set<PlanitEvent> events = new HashSet<>();
+
     protected User() {
     }
 
-    ;
 
     public User(String first, String last, String profileUrl, String email, String location, String providerId) {
         this.firstName = first;
@@ -50,6 +54,11 @@ public class User {
             this.location = person.getPlacesLived().get(0).getValue();
         }
         this.providerId = person.getId();
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "attendees")
+    public Set<PlanitEvent> getEvents() {
+        return this.events;
     }
 
 
