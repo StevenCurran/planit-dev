@@ -1,6 +1,7 @@
 package com.planit.mvc.google;
 
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.plus.model.Person;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class EventPersistenceTask implements Runnable {
 
     private final List<Event> eventInput;
 
-    public EventPersistenceTask(final List<Event> eventInput) {
+    public EventPersistenceTask(final Person person, final List<Event> eventInput) {
         this.eventInput = eventInput;
     }
 
