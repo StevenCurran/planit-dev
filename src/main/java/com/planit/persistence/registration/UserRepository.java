@@ -15,6 +15,5 @@ import java.util.List;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    User findByProviderId(String providerId);
 
 }

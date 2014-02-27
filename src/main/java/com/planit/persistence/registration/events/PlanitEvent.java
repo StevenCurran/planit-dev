@@ -29,7 +29,7 @@ public class PlanitEvent {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "event_user", joinColumns = {
-            @JoinColumn(name = "providerid", nullable = false, updatable = false)},
+            @JoinColumn(name = "id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "id",
                     nullable = false, updatable = false)})
     private Set<User> attendees = new HashSet<>();
