@@ -19,8 +19,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private String id;
 
     private String firstName;
     private String lastName;
@@ -30,7 +29,7 @@ public class User {
 
 
 
-    private String providerId;
+
 
     //Allow Git
 
@@ -47,7 +46,7 @@ public class User {
         this.profileUrl = profileUrl;
         this.email = email;
         this.location = location;
-        this.providerId = providerId;
+        this.id = providerId;
 
     }
 
@@ -59,7 +58,7 @@ public class User {
         if (person.getPlacesLived() != null) {
             this.location = person.getPlacesLived().get(0).getValue();
         }
-        this.providerId = person.getId();
+        this.id = person.getId();
     }
 
 
@@ -68,11 +67,11 @@ public class User {
     }
 
     public String getProviderId() {
-        return providerId;
+        return id;
     }
 
     public void setProviderId(String providerId) {
-        this.providerId = providerId;
+        this.id = providerId;
     }
 
 
