@@ -34,12 +34,12 @@ public class PlanitEvent {
     public PlanitEvent(Event googleEvent) {
         this.id = googleEvent.getId();
         this.name = googleEvent.getSummary();
-        this.startDate = new Date(googleEvent.getOriginalStartTime().getDateTime().getValue());
+        this.startDate = new Date(googleEvent.getStart().getDateTime().getValue());
         this.endDate = new Date(googleEvent.getEnd().getDateTime().getValue());
         this.creator = googleEvent.getCreator().getId();
         this.description = googleEvent.getDescription();
         this.location = googleEvent.getLocation();
-        this.timeZone = googleEvent.getOriginalStartTime().getTimeZone();
+        this.timeZone = googleEvent.getStart().getTimeZone();
 
     }
 
