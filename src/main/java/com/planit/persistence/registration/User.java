@@ -31,6 +31,7 @@ public class User {
 
     //Allow Git
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "attendees")
     private Set<PlanitEvent> events = new HashSet<>();
 
     protected User() {
@@ -58,7 +59,7 @@ public class User {
         this.providerId = person.getId();
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "attendees")
+
     public Set<PlanitEvent> getEvents() {
         return this.events;
     }

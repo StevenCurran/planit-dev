@@ -26,6 +26,12 @@ public class PlanitEvent {
     private String location;
     private String timeZone;
 
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "event_user", joinColumns = {
+            @JoinColumn(name = "providerid", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "id",
+                    nullable = false, updatable = false) })
     private Set<User> attendees = new HashSet<>();
 
     //Allow git to work Linus u idiot
@@ -58,11 +64,7 @@ public class PlanitEvent {
         return pE;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "event_user", joinColumns = {
-            @JoinColumn(name = "providerid", nullable = false, updatable = false) },
-            inverseJoinColumns = { @JoinColumn(name = "id",
-                    nullable = false, updatable = false) })
+
     public Set<User> getCategories() {
         return this.attendees;
     }
