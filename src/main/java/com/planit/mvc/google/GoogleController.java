@@ -103,7 +103,7 @@ public class GoogleController {
         Person profile = plus.people().get("me").execute();
         this.person = new User(profile);
 
-        if(userRepository.findByProviderId(profile.getId()) != null){
+        if(userRepository.findOne(profile.getId()) != null){
             response.addHeader("valid_user", "true");
             return profile;
         }
