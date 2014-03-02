@@ -22,6 +22,7 @@
     <jpa:repositories base-package="com.planit.persistence" entity-manager-factory-ref="myEmf"
                       transaction-manager-ref="txManager"/>
 
+    <mvc:annotation-driven/>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
     <mvc:view-controller path="/" view-name="hello"/>
