@@ -5,15 +5,13 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.XmlSolverFactory;
 
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 /**
  * Created by Steven on 16/02/14.
  */
 public class PlannerRunner {
 
-    public PlannerRunner(){
+    public PlannerRunner() {
         run();
     }
 

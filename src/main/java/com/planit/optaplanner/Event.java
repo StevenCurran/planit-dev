@@ -10,10 +10,11 @@ public class Event {
     private Date startDate;
     private Date endDate;
 
-    public Event(){
+    public Event() {
 
     }
-    public Event(Date startDate, Date endDate){
+
+    public Event(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }

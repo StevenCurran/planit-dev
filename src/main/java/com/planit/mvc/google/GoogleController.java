@@ -26,16 +26,13 @@ import com.planit.persistence.registration.events.EventRepository;
 import com.planit.persistence.registration.events.PlanitEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -72,7 +69,6 @@ public class GoogleController {
     private User person = null;
 
 
-
     @Autowired
     private UserRepository userRepository;
 
@@ -103,7 +99,7 @@ public class GoogleController {
         Person profile = plus.people().get("me").execute();
         this.person = new User(profile);
 
-        if(userRepository.findOne(profile.getId()) != null){
+        if (userRepository.findOne(profile.getId()) != null) {
             response.addHeader("valid_user", "true");
             return profile;
         }
@@ -114,15 +110,15 @@ public class GoogleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/gcalEvents")
     @ResponseBody
-    public List<Event> getGcalEvents() throws IOException{
+    public List<Event> getGcalEvents() throws IOException {
         String jsonResp = "";
         CalendarList feed = null;
         List<Event> events = new ArrayList<>();
 
 
         //perform some setup of the calendar information.
-     //   GoogleTokenResponse responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
-     //   Credential credential = flow.createAndStoreCredential(responseVar, null);
+        //   GoogleTokenResponse responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
+        //   Credential credential = flow.createAndStoreCredential(responseVar, null);
         calendarClient = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
 
 

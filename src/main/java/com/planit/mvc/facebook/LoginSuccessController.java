@@ -4,17 +4,18 @@ package com.planit.mvc.facebook;
  * Created by Steven Curran on 12/02/14.
  */
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.planit.optaplanner.Event;
-import org.brickred.socialauth.*;
+import org.brickred.socialauth.AuthProvider;
+import org.brickred.socialauth.Contact;
+import org.brickred.socialauth.Profile;
+import org.brickred.socialauth.SocialAuthManager;
 import org.brickred.socialauth.spring.bean.SocialAuthTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class LoginSuccessController {
@@ -40,14 +41,14 @@ public class LoginSuccessController {
     }
 
 
-   @RequestMapping(value = "/fbevents")
-    public List<com.restfb.types.Event> getFbEvents(final HttpServletRequest request)throws Exception {
+    @RequestMapping(value = "/fbevents")
+    public List<com.restfb.types.Event> getFbEvents(final HttpServletRequest request) throws Exception {
 
         SocialAuthManager manager = socialAuthTemplate.getSocialAuthManager();
         AuthProvider provider = manager.getCurrentAuthProvider();
 
         List<com.restfb.types.Event> events = new ArrayList<>();
-        if(provider != null && provider.isSupportedPlugin(EventPlugin.class)){
+        if (provider != null && provider.isSupportedPlugin(EventPlugin.class)) {
             EventPlugin ep = provider.getPlugin(EventPlugin.class);
             events = ep.getEvents();
         }

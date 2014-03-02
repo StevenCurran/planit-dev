@@ -2,11 +2,9 @@ package com.planit.optaplanner;
 
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
-import org.optaplanner.core.api.domain.value.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.impl.solution.Solution;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class EventArranger implements Solution<HardSoftScore> {
     private HardSoftScore score;
 
     @PlanningEntityCollectionProperty
-    public List<Event> getEventList(){
+    public List<Event> getEventList() {
         return eventList;
     }
 

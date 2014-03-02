@@ -6,8 +6,7 @@ import org.optaplanner.core.impl.score.director.simple.SimpleScoreCalculator;
 /**
  * Created by Steven on 16/02/14.
  */
-public class EventPlanningSimpleScoreCalc implements SimpleScoreCalculator<EventArranger>{
-
+public class EventPlanningSimpleScoreCalc implements SimpleScoreCalculator<EventArranger> {
 
 
     @Override

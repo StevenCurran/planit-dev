@@ -11,18 +11,17 @@ import java.net.URISyntaxException;
 public class PostgresConnector {
 
 
-    public PostgresConnector(){
+    public PostgresConnector() {
 
         try {
             Class.forName("org.postgresql.Driver");
             URI uri = new URI(ProjectUtils.getDBUrl());
             DriverManagerDataSource ds = new DriverManagerDataSource();
             ds.setDriverClassName("org.postgresql.Driver");
-            ds.setUrl("jdbc:postgresql://" + uri.getHost() + ":" + uri.getPort() + uri.getPath());
+            ds.setUrl("jdbc:postgresql://" + uri.getHost() + ":" + uri.getPort() + uri.getPath() + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
             ds.setUsername(uri.getUserInfo().split(":")[0]);
             ds.setPassword(uri.getUserInfo().split(":")[1]);
-        }
-        catch(ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             System.out.println("Error: unable to load driver class!");
             System.exit(1);
         } catch (URISyntaxException e) {

@@ -3,7 +3,6 @@ package com.planit.persistence.registration;
 import com.google.api.services.plus.model.Person;
 import com.planit.persistence.registration.events.PlanitEvent;
 
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,9 +23,6 @@ public class User {
     private String profileUrl;
     private String email;
     private String location;
-
-
-
 
 
     //Allow Git

@@ -1,12 +1,9 @@
 package com.planit.mvc.google;
 
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.plus.model.Person;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.events.EventRepository;
 import com.planit.persistence.registration.events.PlanitEvent;
 
-import javax.sound.midi.Soundbank;
 import java.util.List;
 
 /**

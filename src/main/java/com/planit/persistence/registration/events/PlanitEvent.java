@@ -68,8 +68,7 @@ public class PlanitEvent {
         return this.attendees;
     }
 
-    public void addAttendee(User u)
-    {
+    public void addAttendee(User u) {
         attendees.add(u);
     }
 

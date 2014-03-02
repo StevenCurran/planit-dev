@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Steven on 13/02/14.
  */
-public class EventPluginFacebookImpl implements EventPlugin{
+public class EventPluginFacebookImpl implements EventPlugin {
 
     private static final String EVENTS_URL = "https://graph.facebook.com/me/events";
     private final Log LOG = LogFactory.getLog(this.getClass());
@@ -22,7 +22,7 @@ public class EventPluginFacebookImpl implements EventPlugin{
 
     private ProviderSupport providerSupport;
 
-    public EventPluginFacebookImpl(final ProviderSupport providerSupport){
+    public EventPluginFacebookImpl(final ProviderSupport providerSupport) {
         this.providerSupport = providerSupport;
     }
 
