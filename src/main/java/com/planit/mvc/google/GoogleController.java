@@ -110,10 +110,10 @@ public class GoogleController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/gcalEvents")
     @ResponseBody
-    public List<Event> getGcalEvents() throws IOException {
+    public List<PlanitEvent> getGcalEvents() throws IOException {
         String jsonResp = "";
         CalendarList feed = null;
-        List<Event> events = new ArrayList<>();
+        List<PlanitEvent> events = new ArrayList<>();
 
 
         //perform some setup of the calendar information.
@@ -143,12 +143,12 @@ public class GoogleController {
                     continue;
                 }
 
-                events.add(e);
+                events.add(new PlanitEvent(e, this.person));
             }
 
         }
 
-        taskExecutor.execute(new EventPersistenceTask(this.person, PlanitEvent.getEvents(events, this.person), eventRepository));
+        taskExecutor.execute(new EventPersistenceTask(this.person, events, eventRepository));
 
         return events;
 
