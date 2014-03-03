@@ -1,8 +1,12 @@
 package com.planit.scheduling;
 
 import com.planit.persistence.registration.User;
+import com.planit.persistence.registration.UserRepository;
+import com.planit.persistence.registration.events.PlanitEvent;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,31 +15,42 @@ import java.util.Random;
 /**
  * Created by Josh on 26/02/14.
  */
+
+@Component
 public class UserSchedule {
     private List<BlockVector> schedule;
     public long length;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public UserSchedule(User u, DateTime startDate, DateTime endDate) {
         schedule = new LinkedList<BlockVector>();
         Duration duration = new Duration(startDate, endDate);
         long numHalfHoursInWindow = duration.getStandardHours() * 2;
         length = numHalfHoursInWindow;
-        //List<PlanItEvent> events = EventRepository.getEventsByUser(u,startDate,endDate);
 
-        // let's just add random data for now
+        List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
 
-        for (int block = 0; block < numHalfHoursInWindow; block++) {
-            // if there is an event in the user's schedule that spans this block then put the details into a new BlockVector v
+        // remove dates that are not in the window
 
-            // else create a new BlockVector v with 0s in all entries
+        // initialise vectors to zero
+        for (int i = 0; i < numHalfHoursInWindow; i++)
+        {
+            schedule.add(new BlockVector());
+        }
 
-            // for now let's just put random values into the block vector so we can write the brunt of the algorithm
-            Random r = new Random();
-            //r.setSeed(DateTime.now().);
-            BlockVector v = new BlockVector(r.nextInt(5), r.nextInt(5));
+        // iterate through each event and add the relevant data to the relevant block vectors
 
-            // append BlockVector v to schedule list
-            schedule.add(v);
+        for (PlanitEvent event : events)
+        {
+            long eventDuration = event.getDurationInHours()*2;
+            long offset = event.getStartTimeOffset(startDate)*2;
+
+            for (int i = 0; i < eventDuration; i++)
+            {
+                schedule.set((int)offset+i,new BlockVector(event.getPriority(),event.getNumberOfAttendees()));
+            }
         }
     }
 

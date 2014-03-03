@@ -8,10 +8,16 @@ public class BlockVector {
     public static final int dimension = 2;
 
     public BlockVector(int priority, int extraAttendees) {
-        vector = new int[2];
+        vector = new int[dimension];
         vector[0] = priority;
         vector[1] = extraAttendees;
     }
+
+    public BlockVector()
+    {
+        this(0,0);
+    }
+
 
     public int getAtIndex(int i) {
         return vector[i];

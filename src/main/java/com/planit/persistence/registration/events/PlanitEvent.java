@@ -2,6 +2,8 @@ package com.planit.persistence.registration.events;
 
 import com.google.api.services.calendar.model.Event;
 import com.planit.persistence.registration.User;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import javax.persistence.*;
 import java.util.*;
@@ -19,12 +21,11 @@ public class PlanitEvent {
     private String name;
     private Date startDate;
     private Date endDate;
-    private int duration; //half hour chunks.
     private String creator;
     private String description;
     private String location;
     private String timeZone;
-
+    private int priority;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "event_user", joinColumns = {
@@ -33,7 +34,6 @@ public class PlanitEvent {
                     nullable = false, updatable = false)})
 
     private Set<User> attendees = new HashSet<>();
-
 
     public PlanitEvent() {
 
@@ -46,11 +46,10 @@ public class PlanitEvent {
         this.endDate = new Date(googleEvent.getEnd().getDateTime().getValue());
         this.creator = p.getProviderId();
 
-
         this.description = googleEvent.getDescription();
         this.location = googleEvent.getLocation();
         this.timeZone = googleEvent.getStart().getTimeZone();
-
+        this.priority = 3;
     }
 
     public static List<PlanitEvent> getEvents(List<Event> events, User person) {
@@ -72,5 +71,33 @@ public class PlanitEvent {
         attendees.add(u);
     }
 
+    public long getDurationInHours() {
+        DateTime startDateJ = new DateTime(this.startDate);
+        DateTime endDateJ = new DateTime(this.endDate);
 
+        Duration duration = new Duration(startDateJ, endDateJ);
+        return duration.getStandardHours();
+    }
+
+    public long getStartTimeOffset(Date d) {
+        return getStartTimeOffset(new DateTime(d));
+    }
+
+    public long getStartTimeOffset(DateTime d) {
+        DateTime startDateJ = new DateTime(this.startDate);
+        DateTime dJ = new DateTime(d);
+
+        Duration duration = new Duration(dJ, startDateJ);
+        return duration.getStandardHours();
+    }
+
+    public int getPriority()
+    {
+        return this.priority;
+    }
+
+    public int getNumberOfAttendees()
+    {
+        return attendees.size();
+    }
 }

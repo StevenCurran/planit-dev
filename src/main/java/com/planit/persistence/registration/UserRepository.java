@@ -2,6 +2,7 @@ package com.planit.persistence.registration;
 
 
 import com.planit.persistence.registration.events.PlanitEvent;
+import org.joda.time.DateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Query(value = "select distinct e.* from \"Event\" e inner join \"event_user\" eu on eu.eventid = e.eventid inner join \"User\" u on u.userid = eu.userid where u.userid = ?1", nativeQuery = true)
     public List<PlanitEvent> findEventsForUser(String userId);
+
 /*
 
 select distinct e.* from "Event" e inner join "event_user" eu on eu.eventid = e.eventid inner join "User" u on u.userid = eu.userid where u.userid = '114700121025537154047'
