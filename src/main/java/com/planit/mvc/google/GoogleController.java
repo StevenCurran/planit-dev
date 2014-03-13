@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -155,7 +156,7 @@ public class GoogleController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/addEvent", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "/addEvent")
     public void addEvent(PlanitEvent event){
         eventRepository.save(event);
         System.out.println("Event saved");
