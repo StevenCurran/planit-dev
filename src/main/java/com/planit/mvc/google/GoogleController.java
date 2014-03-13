@@ -95,9 +95,12 @@ public class GoogleController {
     @ResponseBody
     public Person callbackSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            System.out.println(cookie.getName());
-            System.out.println(cookie.getValue());
+        if(cookies.length > 0){
+            for (Cookie cookie : cookies) {
+                System.out.println(cookie.getName());
+                System.out.println(cookie.getValue());
+            }
+
         }
 
         response.addHeader("authToken", request.getParameter("code"));
