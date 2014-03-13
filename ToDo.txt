@@ -1,0 +1,48 @@
+High Level:
+
+[Client:On each view navigated check for new events and conflicted events you may be a part of]
+
+- View Calender
+    Server:
+    -- Get all Events for current user
+    -
+
+    Client:
+    -- CalenderView:
+      - Show date picker
+      - Show Event List View
+        - list of events for day (Also show in transparent to-be resolved conflicted events??)
+      - Add Event button
+      - Navigation Buttons (Today, Month)
+      - (Possibly show events you are a part of as slightly transparent in your calender, )
+
+[Refer to picture of use case]
+- Add Event
+    Server:
+    - Get list of all Planit Users
+    - Ask PlanIt engine to give best date from (Window, Duration, Attendees)
+      - NO CONFLICTS (No conflict flag returned from engine)
+        - Toast Client (OK)
+        - Add event to event table
+      - CONFLICTS (Conflict flag)
+        - Toast the event creator client with list of attendees who have conflicts (OK)
+        - Add to Conflicting Event table
+
+    Client:
+    - AddEventView
+      - Name
+      - Time Window (Window Beginning, Window End () (If End time is different than start))
+      - Priority (Color)
+      - Attendee Picker
+      - Duration
+      - Add Event button
+
+
+
+- Conflict Resolution
+    Server:
+      -
+
+    Client:
+      - ConflictView
+        - Show events that cause you conflicts (Similar to diff & merge)
