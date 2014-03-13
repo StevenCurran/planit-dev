@@ -4,7 +4,7 @@ High Level:
 
 - View Calender
     Server:
-    -- Get all Events for current user
+    -- Get all Events for current user (Done: Steven)
     -
 
     Client:
