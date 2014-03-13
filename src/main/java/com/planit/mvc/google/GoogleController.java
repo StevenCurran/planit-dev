@@ -20,6 +20,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
+import com.planit.gcm.GCMBean;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import com.planit.persistence.registration.events.EventRepository;
@@ -75,6 +76,9 @@ public class GoogleController {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private GCMBean gcmService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
     public String homeMethod() {
@@ -162,6 +166,11 @@ public class GoogleController {
         String time = request.getHeader("time");
         //eventRepository.save(event);
         System.out.println("Event saved");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/gcm")
+    public void testGcmEvent(){
+        gcmService.send(this.person.getFirstName() + " " + this.person.getLastName());
     }
 
     public String buildLoginUrl() {
