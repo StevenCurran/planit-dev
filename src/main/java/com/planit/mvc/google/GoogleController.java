@@ -155,6 +155,12 @@ public class GoogleController {
 
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/addEvent", consumes = "application/json")
+    public void addEvent(PlanitEvent event){
+        eventRepository.save(event);
+        System.out.println("Event saved");
+    }
+
     public String buildLoginUrl() {
 
         final GoogleAuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
