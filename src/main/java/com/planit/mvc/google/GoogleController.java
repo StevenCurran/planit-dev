@@ -157,8 +157,10 @@ public class GoogleController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addEvent")
-    public void addEvent(PlanitEvent event){
-        eventRepository.save(event);
+    public void addEvent(HttpServletRequest request){
+        String date = request.getHeader("date");
+        String time = request.getHeader("time");
+        //eventRepository.save(event);
         System.out.println("Event saved");
     }
 
