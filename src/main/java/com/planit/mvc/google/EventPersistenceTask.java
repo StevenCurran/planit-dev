@@ -27,6 +27,5 @@ public class EventPersistenceTask implements Runnable {
         System.out.println("Adding events...!!");
         eventRepository.save(eventInput);
         System.out.println("Events have been added!!");
-
     }
 }

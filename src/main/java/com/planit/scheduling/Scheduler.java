@@ -44,7 +44,7 @@ public class Scheduler {
     }
 
     private int searchSchedules(List<UserSchedule> schedules, int duration) {
-        final int numPossibleEventPlacements = (int) Math.floor(schedules.size() / duration);
+        final int numPossibleEventPlacements = (int) Math.floor(schedules.get(0).length - duration + 1);
         float[] scores = new float[numPossibleEventPlacements];
 
         // for each user, get their schedule
@@ -79,7 +79,7 @@ public class Scheduler {
 
         int bestStartBlock = searchSchedules(schedules, duration);
 
-        DateTime bestStartTime = startDate.plusMinutes(bestStartBlock / 2);
+        DateTime bestStartTime = startDate.plusMinutes(bestStartBlock * 30);
 
         List<DateTime> bestDates = new LinkedList<DateTime>();
         bestDates.add(bestStartTime);

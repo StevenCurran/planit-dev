@@ -71,12 +71,12 @@ public class PlanitEvent {
         attendees.add(u);
     }
 
-    public long getDurationInHours() {
+    public long getDurationInHalfHours() {
         DateTime startDateJ = new DateTime(this.startDate);
         DateTime endDateJ = new DateTime(this.endDate);
 
         Duration duration = new Duration(startDateJ, endDateJ);
-        return duration.getStandardHours();
+        return duration.getStandardMinutes() / 30;
     }
 
     public long getStartTimeOffset(Date d) {
@@ -88,16 +88,32 @@ public class PlanitEvent {
         DateTime dJ = new DateTime(d);
 
         Duration duration = new Duration(dJ, startDateJ);
-        return duration.getStandardHours();
+        return duration.getStandardMinutes() / 30;
     }
 
-    public int getPriority()
-    {
+    public int getPriority() {
         return this.priority;
     }
 
-    public int getNumberOfAttendees()
-    {
+    public void setPriority(int p) {
+        this.priority = p;
+    }
+
+    public int getNumberOfAttendees() {
         return attendees.size();
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+
 }

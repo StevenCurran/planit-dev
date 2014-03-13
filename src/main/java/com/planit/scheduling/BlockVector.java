@@ -13,9 +13,8 @@ public class BlockVector {
         vector[1] = extraAttendees;
     }
 
-    public BlockVector()
-    {
-        this(0,0);
+    public BlockVector() {
+        this(0, 0);
     }
 
 
