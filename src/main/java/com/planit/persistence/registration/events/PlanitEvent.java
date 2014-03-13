@@ -32,7 +32,6 @@ public class PlanitEvent {
             @JoinColumn(name = "eventId", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "userId",
                     nullable = false, updatable = false)})
-
     private Set<User> attendees = new HashSet<>();
 
     public PlanitEvent() {
@@ -62,6 +61,53 @@ public class PlanitEvent {
         return pE;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public Set<User> getAttendees() {
+        return attendees;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
 
     public Set<User> getCategories() {
         return this.attendees;
@@ -101,18 +147,6 @@ public class PlanitEvent {
 
     public int getNumberOfAttendees() {
         return attendees.size();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
 
