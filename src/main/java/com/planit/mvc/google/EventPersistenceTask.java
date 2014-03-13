@@ -1,8 +1,8 @@
 package com.planit.mvc.google;
 
 import com.planit.persistence.registration.User;
-import com.planit.persistence.registration.events.EventRepository;
-import com.planit.persistence.registration.events.PlanitEvent;
+import com.planit.persistence.events.EventRepository;
+import com.planit.persistence.events.PlanitEvent;
 
 import java.util.List;
 

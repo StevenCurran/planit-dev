@@ -2,7 +2,7 @@ package com.planit.scheduling;
 
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
-import com.planit.persistence.registration.events.PlanitEvent;
+import com.planit.persistence.events.PlanitEvent;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;

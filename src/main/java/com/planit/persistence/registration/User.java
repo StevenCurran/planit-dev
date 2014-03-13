@@ -1,7 +1,7 @@
 package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
-import com.planit.persistence.registration.events.PlanitEvent;
+import com.planit.persistence.events.PlanitEvent;
 
 import javax.persistence.*;
 import java.util.HashSet;

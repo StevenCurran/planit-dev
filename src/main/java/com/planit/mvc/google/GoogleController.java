@@ -23,8 +23,8 @@ import com.google.api.services.plus.model.Person;
 import com.planit.gcm.GCMBean;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
-import com.planit.persistence.registration.events.EventRepository;
-import com.planit.persistence.registration.events.PlanitEvent;
+import com.planit.persistence.events.EventRepository;
+import com.planit.persistence.events.PlanitEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,6 +172,7 @@ public class GoogleController {
 
 
     @RequestMapping(method = RequestMethod.POST, value = "/deviceregistration")
+    @ResponseBody
     public void registerDevice(HttpServletRequest request) {
         String providerId = request.getHeader("providerid");
         String deviceId = request.getHeader("deviceid");

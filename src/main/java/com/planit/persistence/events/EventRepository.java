@@ -1,4 +1,4 @@
-package com.planit.persistence.registration.events;
+package com.planit.persistence.events;
 
 import com.planit.persistence.registration.User;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.planit.persistence.registration.events;
+package com.planit.persistence.events;
 
 import com.google.api.services.calendar.model.Event;
 import com.planit.persistence.registration.User;
