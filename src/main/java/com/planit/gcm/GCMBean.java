@@ -21,14 +21,9 @@ public class GCMBean {
     private QuotaGuardProxyAuthenticator proxy;
     private static final Executor threadPool = Executors.newFixedThreadPool(5);
 
-    public static void main(String[] args) {
-        GCMBean bean = new GCMBean();
-        bean.send("Steven Curran");
-    }
     public GCMBean() {
         this.proxy = new QuotaGuardProxyAuthenticator();
         this.sender = new GCMProxySender(API_KEY,proxy);
-        System.out.println("Sender created");
     }
 
     public void send(String name){
@@ -41,10 +36,38 @@ public class GCMBean {
             sender.send(m, id, 1);
             proxy.clearProxy();
         } catch (IOException e) {
-            System.err.print("WTF HAPPENED");
             e.printStackTrace();
         }
         System.out.println("Sent");
+
+    }
+
+    public void sendRegConfirm(String name, String deviceId){
+        Message m = new Message.Builder().addData("message_type", "gcm").addData("data", "Device registered with planit. " + name).build();
+
+        List<String> id = new ArrayList<>();
+        id.add(deviceId);
+        try {
+            proxy.setProxy();
+            sender.send(m, id, 1);
+            proxy.clearProxy();
+        } catch (IOException e) {
+            System.out.println("Registration error...."); //log
+            e.printStackTrace();
+        }
+
+    }
+
+    public void sendMessageToUsers(Message m, List<String> deviceIds){
+        try {
+            proxy.setProxy();
+            sender.send(m, deviceIds, 1);
+            proxy.clearProxy();
+        } catch (IOException e) {
+            System.out.println("Registration error...."); //log
+            e.printStackTrace();
+        }
+
 
     }
 

@@ -23,12 +23,13 @@ public class User {
     private String profileUrl;
     private String email;
     private String location;
-
+    private String deviceId;
 
     //Allow Git
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "attendees")
     private Set<PlanitEvent> events = new HashSet<>();
+
 
     protected User() {
     }
@@ -75,5 +76,13 @@ public class User {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
     }
 }

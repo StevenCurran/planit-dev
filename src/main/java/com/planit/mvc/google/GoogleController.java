@@ -30,7 +30,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -49,16 +48,14 @@ import java.util.*;
 @RequestMapping("/googlelogin")
 public class GoogleController {
 
-    private final Log LOG = LogFactory.getLog(GoogleController.class);
-
     private static final String CLIENT_ID = "115023261213-vdpubj7qf78pu1jbk85t3pbt329fu4vv.apps.googleusercontent.com";
     private static final String CLIENT_SECRET = "-D-uoU496-0C868uId3NhlW4";
-    private static String CALLBACK_URI = "/oauthCallback";
-    private static Collection<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email;https://www.googleapis.com/auth/calendar".split(";"));
     private static final String USER_INFO_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
     private static final JsonFactory JSON_FACTORY = new JacksonFactory();
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-
+    private static String CALLBACK_URI = "/oauthCallback";
+    private static Collection<String> SCOPE = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile;https://www.googleapis.com/auth/userinfo.email;https://www.googleapis.com/auth/calendar".split(";"));
+    private final Log LOG = LogFactory.getLog(GoogleController.class);
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
     private Calendar calendarClient;
@@ -161,7 +158,7 @@ public class GoogleController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addEvent")
-    public void addEvent(HttpServletRequest request){
+    public void addEvent(HttpServletRequest request) {
         String date = request.getHeader("date");
         String time = request.getHeader("time");
         //eventRepository.save(event);
@@ -169,9 +166,24 @@ public class GoogleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gcm")
-    public void testGcmEvent(){
+    public void testGcmEvent() {
         gcmService.send(this.person.getFirstName() + " " + this.person.getLastName());
     }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/deviceregistration")
+    public void registerDevice(HttpServletRequest request) {
+        String providerId = request.getHeader("providerid");
+        String deviceId = request.getHeader("deviceid");
+
+        User one = userRepository.findOne(providerId);
+        if(one != null){
+            one.setDeviceId(deviceId);
+            userRepository.save(one);
+        }
+        gcmService.sendRegConfirm(this.person.getFirstName() + " " + this.person.getLastName(), deviceId);
+    }
+
 
     public String buildLoginUrl() {
 
