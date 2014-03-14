@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 public class GCMBean {
 
     private final String API_KEY = "AIzaSyA0zAyEc47gZn1tpM6luIa4OjflCEeNd84";
-    private String locaid = "APA91bFvE-3Q_SZckFQOqtx3DMyzKms1Ch1oEv3Tazmpu3LHNii7WM9NNFDYWFldJHLi3gRQhMfEKzb0jkh1IrxmpsFX3GOwKgtotpnjOE7hD0t5wGbu3rDCDYskzQ8ojfz2ZhTcuZmFaLYFpHuGeJEpidrFoW4kVw";
+    private String locaid = "APA91bFACSU7tHHlg1R4n5Pbb9K3TQiJln4vFHNATjTHHS19-uOk5WpuIWbZs13SaerMrTDe_6bq4ZTVrb08V2QCSDfRAdT46QXsdsO5oQnvuw3G3l1sCKe4m_0KCLixyVn3t8DC-ccJxwc5jzk_LL1JM5-gggaimQ";
 
     private GCMProxySender sender;
     private QuotaGuardProxyAuthenticator proxy;
@@ -23,7 +23,7 @@ public class GCMBean {
 
     public static void main(String[] args) {
         GCMBean bean = new GCMBean();
-        bean.send("QuotaGuard Support");
+        bean.send("Steven Curran");
     }
     public GCMBean() {
         this.proxy = new QuotaGuardProxyAuthenticator();
@@ -38,7 +38,7 @@ public class GCMBean {
         id.add(locaid);
         try {
             proxy.setProxy();
-            sender.send(m, id, 10);
+            sender.send(m, id, 1);
             proxy.clearProxy();
         } catch (IOException e) {
             System.err.print("WTF HAPPENED");
