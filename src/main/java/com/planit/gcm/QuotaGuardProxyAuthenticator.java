@@ -23,7 +23,7 @@ public class QuotaGuardProxyAuthenticator extends Authenticator{
                 host = proxyUrl.getHost();
                 port = proxyUrl.getPort();
                 auth = new ProxyAuthenticator(user,password);
-                setProxy();
+                //setProxy();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -34,11 +34,19 @@ public class QuotaGuardProxyAuthenticator extends Authenticator{
 
     }
 
-    private void setProxy(){
+    public void setProxy(){
         System.setProperty("http.proxyHost", host);
         System.setProperty("http.proxyPort", String.valueOf(port));
         System.setProperty("https.proxyHost",host);
         System.setProperty("https.proxyPort", String.valueOf(port));
+    }
+
+    public void clearProxy(){
+        System.clearProperty("http.proxyHost");
+        System.clearProperty("http.proxyPort");
+        System.clearProperty("https.proxyHost");
+        System.clearProperty("https.proxyPort");
+
     }
 
     public String getEncodedAuth(){
