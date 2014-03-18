@@ -25,17 +25,14 @@ public class User {
     private String email;
     private String location;
     private String deviceId;
-
-    //Allow Git
-
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees")
     private Set<PlanitEvent> events = new HashSet<>();
 
-
     protected User() {
     }
 
+    //Allow Git
 
     public User(String first, String last, String profileUrl, String email, String location, String providerId) {
         this.firstName = first;
@@ -46,6 +43,7 @@ public class User {
         this.userId = providerId;
     }
 
+
     public User(Person person) {
         this.firstName = person.getName().getGivenName();
         this.lastName = person.getName().getFamilyName();
@@ -55,6 +53,14 @@ public class User {
             this.location = person.getPlacesLived().get(0).getValue();
         }
         this.userId = person.getId();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @JsonIgnore
@@ -79,11 +85,11 @@ public class User {
         return lastName;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
     public String getDeviceId() {
         return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }
