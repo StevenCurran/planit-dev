@@ -69,7 +69,7 @@ public class Scheduler {
         return minIndex;
     }
 
-    public List<DateTime> getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
+    public DateTime getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
         for (User attendee : attendees) {
@@ -81,8 +81,9 @@ public class Scheduler {
 
         DateTime bestStartTime = startDate.plusMinutes(bestStartBlock * 30);
 
-        List<DateTime> bestDates = new LinkedList<DateTime>();
-        bestDates.add(bestStartTime);
-        return bestDates;
+        //List<DateTime> bestDates = new LinkedList<DateTime>();
+        //bestDates.add(bestStartTime);
+        DateTime bestDate = new DateTime();
+        return bestDate;
     }
 }
