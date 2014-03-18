@@ -97,7 +97,8 @@ public class EventController {
         int pDuration = Integer.parseInt(duration);
         int pPriority = Integer.parseInt(priority);
 
-        return getBestDate(users, pStartDate, pEndDate, pDuration, pPriority);
+        String bestDate = getBestDate(users, pStartDate, pEndDate, pDuration, pPriority);
+        return bestDate;
     }
 
     public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)

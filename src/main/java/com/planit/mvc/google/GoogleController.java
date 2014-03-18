@@ -250,8 +250,5 @@ public class GoogleController {
         request.getHeaders().setContentType("application/json");
         final String jsonIdentity = request.execute().parseAsString();
         return jsonIdentity;
-
     }
-
-
 }
