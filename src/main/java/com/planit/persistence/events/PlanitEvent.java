@@ -27,7 +27,7 @@ public class PlanitEvent {
     private String timeZone;
     private int priority;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "event_user", joinColumns = {
             @JoinColumn(name = "eventId", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "userId",
