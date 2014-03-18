@@ -32,8 +32,6 @@ public class User {
     protected User() {
     }
 
-    //Allow Git
-
     public User(String first, String last, String profileUrl, String email, String location, String providerId) {
         this.firstName = first;
         this.lastName = last;
@@ -42,7 +40,6 @@ public class User {
         this.location = location;
         this.userId = providerId;
     }
-
 
     public User(Person person) {
         this.firstName = person.getName().getGivenName();
@@ -54,6 +51,32 @@ public class User {
         }
         this.userId = person.getId();
     }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    //Allow Git
 
     public String getEmail() {
         return email;
@@ -76,13 +99,20 @@ public class User {
         this.userId = providerId;
     }
 
-
     public String getFirstName() {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getDeviceId() {
