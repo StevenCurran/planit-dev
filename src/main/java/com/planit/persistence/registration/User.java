@@ -57,7 +57,7 @@ public class User {
         this.userId = person.getId();
     }
 
-
+    @JsonIgnore
     public Set<PlanitEvent> getEvents() {
         return this.events;
     }
