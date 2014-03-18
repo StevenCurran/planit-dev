@@ -28,6 +28,7 @@ public class UserSchedule {
         Duration duration = new Duration(startDate, endDate);
         length = duration.getStandardHours() * 2;
 
+        System.out.println("JOSH-KUN, WE ARE NOW BUILDING A SCHEDULE FOR USER "+u.getProviderId());
         List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
 
         /*

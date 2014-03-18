@@ -73,8 +73,10 @@ public class Scheduler {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
         for (User attendee : attendees) {
-            System.out.println(attendee.getProviderId());
-            schedules.add(new UserSchedule(attendee, startDate, endDate));
+            UserSchedule s=new UserSchedule(attendee, startDate, endDate);
+            System.out.println("============================ HELLO JOSH-KUN, FOR ATTENDEE ID " + attendee.getProviderId() + " WE HAVE A SCHEDULE THAT LOOKS LIKE ");
+            s.displaySchedule();
+            schedules.add(s);
         }
 
         int bestStartBlock = searchSchedules(schedules, duration);

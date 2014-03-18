@@ -88,6 +88,7 @@ public class EventController {
         System.out.println("going to go through the attendee id list:");
         for(String attendee : attendeeList)
         {
+            System.out.println("pulling out attendee from db with id = "+attendee);
             User a = userRepository.findOne(attendee);
             System.out.println("we got a provider id of "+a.getProviderId());
             users.add(a);
