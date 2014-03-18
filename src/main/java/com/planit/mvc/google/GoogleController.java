@@ -174,12 +174,19 @@ public class GoogleController {
         String date = request.getHeader("date");
         String time = request.getHeader("time");
         //eventRepository.save(event);
+
+
         System.out.println("Event saved");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/gcm")
     public void testGcmEvent() {
         gcmService.send(this.person.getFirstName() + " " + this.person.getLastName());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getAttendees")
+    public List<User> getAttendees() {
+        return userRepository.findAll();
     }
 
 
