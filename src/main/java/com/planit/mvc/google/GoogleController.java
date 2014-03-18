@@ -187,7 +187,9 @@ public class GoogleController {
     @RequestMapping(method = RequestMethod.GET, value = "/getAttendees")
     @ResponseBody
     public List<User> getAttendees() {
-        return userRepository.findAll();
+        List<User> tempList = userRepository.findAll();
+        System.out.println("############################" + tempList.size() + "##########################");
+        return tempList;
     }
 
 
