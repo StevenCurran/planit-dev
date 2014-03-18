@@ -87,7 +87,7 @@ public class Scheduler {
             System.out.println(eventsForUser.size() + " Size is :!!!!");
             System.out.println(eventsForUser);
 
-            UserSchedule s=new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
+            UserSchedule s = new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
             System.out.println("============================ HELLO JOSH-KUN, FOR ATTENDEE ID " + attendee.getProviderId() + " WE HAVE A SCHEDULE THAT LOOKS LIKE ");
             s.displaySchedule();
             schedules.add(s);

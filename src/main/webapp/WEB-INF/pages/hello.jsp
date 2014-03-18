@@ -6,7 +6,7 @@
 <a href="/googlelogin/login"><img src="${pageContext.request.contextPath}/resources/images/google.png" height="100"
                                   width="100"></a>
 <a href="/events/planit"><img src="${pageContext.request.contextPath}/resources/images/google.png" height="100"
-                                  width="200"></a>
+                              width="200"></a>
 
 <h2>Welcome to PlanIt!!</h2>
 </body>

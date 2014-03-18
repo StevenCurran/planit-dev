@@ -1,16 +1,10 @@
 package com.planit.mvc.events;
 
-import com.ProjectUtils;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import com.planit.scheduling.Scheduler;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -86,14 +79,13 @@ public class EventController {
 
 
         List<String> attendeeList = Arrays.asList(attendees.split(","));
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%% attendee list looks like this: "+attendeeList);
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%% attendee list looks like this: " + attendeeList);
         List<User> users = new LinkedList<>();
         System.out.println("going to go through the attendee id list:");
-        for(String attendee : attendeeList)
-        {
-            System.out.println("pulling out attendee from db with id = "+attendee);
+        for (String attendee : attendeeList) {
+            System.out.println("pulling out attendee from db with id = " + attendee);
             User a = userRepository.findOne(attendee);
-            System.out.println("we got a provider id of "+a.getProviderId());
+            System.out.println("we got a provider id of " + a.getProviderId());
             users.add(a);
         }
 
@@ -110,11 +102,10 @@ public class EventController {
         return bestDate;
     }
 
-    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)
-    {
+    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
 
         StringBuilder response = new StringBuilder();
-        DateTime bestDate = scheduler.getBestDate(attendees,startDate,endDate,duration,priority);
+        DateTime bestDate = scheduler.getBestDate(attendees, startDate, endDate, duration, priority);
         response.append(bestDate);
         return response.toString();
     }

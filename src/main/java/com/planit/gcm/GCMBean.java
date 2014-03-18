@@ -1,7 +1,6 @@
 package com.planit.gcm;
 
 import com.google.android.gcm.server.Message;
-import com.google.android.gcm.server.Sender;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,10 +22,10 @@ public class GCMBean {
 
     public GCMBean() {
         this.proxy = new QuotaGuardProxyAuthenticator();
-        this.sender = new GCMProxySender(API_KEY,proxy);
+        this.sender = new GCMProxySender(API_KEY, proxy);
     }
 
-    public void send(String name){
+    public void send(String name) {
         Message m = new Message.Builder().addData("message_type", "gcm").addData("data", "hello there " + name + " Welcome to planit!").build();
 
         List<String> id = new ArrayList<>();
@@ -42,7 +41,7 @@ public class GCMBean {
 
     }
 
-    public void sendRegConfirm(String name, String deviceId){
+    public void sendRegConfirm(String name, String deviceId) {
         Message m = new Message.Builder().addData("message_type", "gcm").addData("data", "Device registered with planit. " + name).build();
 
         List<String> id = new ArrayList<>();
@@ -58,7 +57,7 @@ public class GCMBean {
 
     }
 
-    public void sendMessageToUsers(Message m, List<String> deviceIds){
+    public void sendMessageToUsers(Message m, List<String> deviceIds) {
         try {
             proxy.setProxy();
             sender.send(m, deviceIds, 1);

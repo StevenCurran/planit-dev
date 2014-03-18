@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
 
-public class QuotaGuardProxyAuthenticator extends Authenticator{
+public class QuotaGuardProxyAuthenticator extends Authenticator {
     private String user, password, host;
     private int port;
     private ProxyAuthenticator auth;
@@ -14,7 +14,7 @@ public class QuotaGuardProxyAuthenticator extends Authenticator{
         //String proxyUrlEnv = System.getenv("QUOTAGUARDSTATIC_URL");
         String proxyUrlEnv = "http://quotaguard1124:345f4549b71f@eu-west-1-babbage.quotaguard.com:9293";
         System.out.println(proxyUrlEnv);
-        if(proxyUrlEnv!=null){
+        if (proxyUrlEnv != null) {
             try {
                 URL proxyUrl = new URL(proxyUrlEnv);
                 String authString = proxyUrl.getUserInfo();
@@ -22,26 +22,25 @@ public class QuotaGuardProxyAuthenticator extends Authenticator{
                 password = authString.split(":")[1];
                 host = proxyUrl.getHost();
                 port = proxyUrl.getPort();
-                auth = new ProxyAuthenticator(user,password);
+                auth = new ProxyAuthenticator(user, password);
                 //setProxy();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-        }
-        else{
+        } else {
             System.err.println("You need to set the environment variable QUOTAGUARDSTATIC_URL!");
         }
 
     }
 
-    public void setProxy(){
+    public void setProxy() {
         System.setProperty("http.proxyHost", host);
         System.setProperty("http.proxyPort", String.valueOf(port));
-        System.setProperty("https.proxyHost",host);
+        System.setProperty("https.proxyHost", host);
         System.setProperty("https.proxyPort", String.valueOf(port));
     }
 
-    public void clearProxy(){
+    public void clearProxy() {
         System.clearProperty("http.proxyHost");
         System.clearProperty("http.proxyPort");
         System.clearProperty("https.proxyHost");
@@ -49,14 +48,14 @@ public class QuotaGuardProxyAuthenticator extends Authenticator{
 
     }
 
-    public String getEncodedAuth(){
+    public String getEncodedAuth() {
         //If using Java8 you can use the standard java.util.Base64 package.
         //String encoded = java.util.Base64.getEncoder().encodeToString((user + ":" + password).getBytes());
         String encoded = new String(Base64.encodeToByte((user + ":" + password).getBytes(), true));
         return encoded;
     }
 
-    public ProxyAuthenticator getAuth(){
+    public ProxyAuthenticator getAuth() {
         return auth;
     }
 

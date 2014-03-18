@@ -2,6 +2,7 @@ package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
 import com.planit.persistence.events.PlanitEvent;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -27,7 +28,8 @@ public class User {
 
     //Allow Git
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "attendees")
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees")
     private Set<PlanitEvent> events = new HashSet<>();
 
 

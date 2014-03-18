@@ -1,12 +1,9 @@
 package com.planit.scheduling;
 
-import com.planit.persistence.registration.User;
-import com.planit.persistence.registration.UserRepository;
 import com.planit.persistence.events.PlanitEvent;
+import com.planit.persistence.registration.User;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,16 +17,14 @@ public class UserSchedule {
     public long length;
 
 
-
     public UserSchedule(User u, DateTime startDate, DateTime endDate, List<PlanitEvent> events) {
         schedule = new LinkedList<BlockVector>();
         Duration duration = new Duration(startDate, endDate);
         length = duration.getStandardHours() * 2;
 
-        System.out.println("JOSH-KUN, WE ARE NOW BUILDING A SCHEDULE FOR USER "+u.getProviderId());
+        System.out.println("JOSH-KUN, WE ARE NOW BUILDING A SCHEDULE FOR USER " + u.getProviderId());
         System.out.println("trying to break userRepository %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         //List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
-
 
 
         // initialise vectors to zero
@@ -46,7 +41,7 @@ public class UserSchedule {
                 // preferenceScore = user.getUserPreferenceMatrix[day][halfHour][tag];
                 int pos = (int) offset + i;
                 // don't include this event if the offset is negative or longer than the duration of the window
-                if(pos >= 0 && pos < length){
+                if (pos >= 0 && pos < length) {
                     schedule.set(pos, new BlockVector(event.getPriority(), event.getNumberOfAttendees()));
                 }
             }

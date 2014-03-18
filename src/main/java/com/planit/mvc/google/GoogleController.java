@@ -21,15 +21,13 @@ import com.google.api.services.calendar.model.Events;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.model.Person;
 import com.planit.gcm.GCMBean;
-import com.planit.persistence.registration.User;
-import com.planit.persistence.registration.UserRepository;
 import com.planit.persistence.events.EventRepository;
 import com.planit.persistence.events.PlanitEvent;
+import com.planit.persistence.registration.User;
+import com.planit.persistence.registration.UserRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,7 +93,7 @@ public class GoogleController {
     @ResponseBody
     public Person callbackSuccess(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Cookie[] cookies = request.getCookies();
-        if(cookies.length > 0){
+        if (cookies.length > 0) {
             for (Cookie cookie : cookies) {
                 System.out.println(cookie.getName());
                 System.out.println(cookie.getValue());
@@ -187,8 +185,7 @@ public class GoogleController {
     @RequestMapping(method = RequestMethod.GET, value = "/getAttendees")
     @ResponseBody
     public List<User> getAttendees() {
-        List<User> tempList = userRepository.findAll();
-        return tempList;
+        return userRepository.findAll();
     }
 
 
@@ -199,7 +196,7 @@ public class GoogleController {
         String deviceId = request.getHeader("deviceid");
 
         User one = userRepository.findOne(providerId);
-        if(one != null){
+        if (one != null) {
             one.setDeviceId(deviceId);
             userRepository.save(one);
         }

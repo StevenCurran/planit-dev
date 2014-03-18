@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Steven on 20/02/14.
@@ -17,7 +16,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, String> {
 
 
-//    @Query(value = "select distinct e.* from \"Event\" e inner join \"event_user\" eu on eu.eventid = e.eventid inner join \"User\" u on u.userid = eu.userid where u.userid = ?1", nativeQuery = true)
+    //    @Query(value = "select distinct e.* from \"Event\" e inner join \"event_user\" eu on eu.eventid = e.eventid inner join \"User\" u on u.userid = eu.userid where u.userid = ?1", nativeQuery = true)
 //from Event as e inner join e.eventid as eid where userid = :userId
     @Query(value = "select distinct e from PlanitEvent e inner join e.attendees att where att.userId = ?1")
     public ArrayList<PlanitEvent> findEventsForUser(String userId);
