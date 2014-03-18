@@ -83,9 +83,12 @@ public class EventController {
 
         List<String> attendeeList = Arrays.asList(attendees.split(","));
         List<User> users = new LinkedList<>();
+        System.out.println("going to go through the attendee id list:");
         for(String attendee : attendeeList)
         {
-            users.add(userRepository.findOne(attendee));
+            User a = userRepository.findOne(attendee);
+            System.out.println("we got a provider id of "+a.getProviderId());
+            users.add(a);
         }
 
         String[] sd = startDate.split(",");
