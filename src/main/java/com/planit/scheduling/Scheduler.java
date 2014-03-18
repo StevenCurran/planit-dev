@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -82,7 +83,7 @@ public class Scheduler {
 
         for (User attendee : attendees) {
 
-            List<PlanitEvent> eventsForUser = userRepository.findEventsForUser(attendee.getProviderId());
+            ArrayList<PlanitEvent> eventsForUser = (ArrayList<PlanitEvent>)userRepository.findEventsForUser(attendee.getProviderId());
             System.out.println(eventsForUser.size() + " Size is :!!!!");
             System.out.println(eventsForUser);
 
