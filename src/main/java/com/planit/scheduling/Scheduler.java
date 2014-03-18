@@ -83,7 +83,7 @@ public class Scheduler {
 
         for (User attendee : attendees) {
 
-            ArrayList<PlanitEvent> eventsForUser = (ArrayList<PlanitEvent>)userRepository.findEventsForUser(attendee.getProviderId());
+            ArrayList<PlanitEvent> eventsForUser = userRepository.findEventsForUser(attendee.getProviderId());
             System.out.println(eventsForUser.size() + " Size is :!!!!");
             System.out.println(eventsForUser);
 
