@@ -29,47 +29,11 @@ public class UserSchedule {
         length = duration.getStandardHours() * 2;
 
         System.out.println("JOSH-KUN, WE ARE NOW BUILDING A SCHEDULE FOR USER "+u.getProviderId());
+        System.out.println("trying to break userRepository %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println(userRepository.toString());
         List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
 
-        /*
-        List<PlanitEvent> events = new LinkedList<>();
-        PlanitEvent e1 = new PlanitEvent();
 
-        e1.setName("Event 1");
-        DateTime sd = new DateTime(2012, 12, 12, 12, 00);
-        DateTime ed = new DateTime(2012, 12, 12, 13, 00);
-        e1.setStartDate(sd.toDate());
-        e1.setEndDate(ed.toDate());
-        e1.setPriority(2);
-        events.add(e1);
-
-        PlanitEvent e2 = new PlanitEvent();
-        e2.setName("Event 2");
-        sd = new DateTime(2012, 12, 12, 14, 00);
-        ed = new DateTime(2012, 12, 12, 16, 00);
-        e2.setStartDate(sd.toDate());
-        e2.setEndDate(ed.toDate());
-        e2.setPriority(3);
-        events.add(e2);
-
-        PlanitEvent e3 = new PlanitEvent();
-        e3.setName("Event 3");
-        sd = new DateTime(2012, 12, 12, 17, 00);
-        ed = new DateTime(2012, 12, 12, 17, 30);
-        e3.setStartDate(sd.toDate());
-        e3.setEndDate(ed.toDate());
-        e3.setPriority(4);
-        events.add(e3);
-
-        PlanitEvent e4 = new PlanitEvent();
-        e4.setName("Event 2");
-        sd = new DateTime(2012, 12, 12, 16, 00);
-        ed = new DateTime(2012, 12, 12, 17, 00);
-        e4.setStartDate(sd.toDate());
-        e4.setEndDate(ed.toDate());
-        e4.setPriority(5);
-        events.add(e4);
-        */
 
         // initialise vectors to zero
         for (int i = 0; i < length; i++) {
