@@ -185,6 +185,7 @@ public class GoogleController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getAttendees")
+    @ResponseBody
     public List<User> getAttendees() {
         return userRepository.findAll();
     }
