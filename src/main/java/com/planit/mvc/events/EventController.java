@@ -37,6 +37,9 @@ public class EventController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private Scheduler scheduler;
+
     public static String getBody(HttpServletRequest request) throws IOException {
 
         String body = null;
@@ -109,9 +112,9 @@ public class EventController {
 
     public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)
     {
-        Scheduler s = new Scheduler();
+
         StringBuilder response = new StringBuilder();
-        DateTime bestDate = s.getBestDate(attendees,startDate,endDate,duration,priority);
+        DateTime bestDate = scheduler.getBestDate(attendees,startDate,endDate,duration,priority);
         response.append(bestDate);
         return response.toString();
     }

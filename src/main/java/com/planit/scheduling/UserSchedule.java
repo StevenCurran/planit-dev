@@ -15,23 +15,20 @@ import java.util.List;
  * Created by Josh on 26/02/14.
  */
 
-@Component
 public class UserSchedule {
     private List<BlockVector> schedule;
     public long length;
 
-    @Autowired
-    private UserRepository userRepository;
 
-    public UserSchedule(User u, DateTime startDate, DateTime endDate) {
+
+    public UserSchedule(User u, DateTime startDate, DateTime endDate, List<PlanitEvent> events) {
         schedule = new LinkedList<BlockVector>();
         Duration duration = new Duration(startDate, endDate);
         length = duration.getStandardHours() * 2;
 
         System.out.println("JOSH-KUN, WE ARE NOW BUILDING A SCHEDULE FOR USER "+u.getProviderId());
         System.out.println("trying to break userRepository %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        System.out.println(userRepository.toString());
-        List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
+        //List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
 
 
 

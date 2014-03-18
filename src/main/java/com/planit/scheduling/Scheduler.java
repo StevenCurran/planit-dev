@@ -1,7 +1,10 @@
 package com.planit.scheduling;
 
 import com.planit.persistence.registration.User;
+import com.planit.persistence.registration.UserRepository;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +12,11 @@ import java.util.List;
 /**
  * Created by Josh & Stephen on 26/02/14.
  */
+@Component
 public class Scheduler {
+
+    @Autowired
+    private UserRepository userRepository;
 
     private float[] weightings = {1.0f, 1.0f, 1.0f};
 
@@ -73,7 +80,7 @@ public class Scheduler {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
         for (User attendee : attendees) {
-            UserSchedule s=new UserSchedule(attendee, startDate, endDate);
+            UserSchedule s=new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
             System.out.println("============================ HELLO JOSH-KUN, FOR ATTENDEE ID " + attendee.getProviderId() + " WE HAVE A SCHEDULE THAT LOOKS LIKE ");
             s.displaySchedule();
             schedules.add(s);

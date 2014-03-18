@@ -54,6 +54,7 @@
     </bean>
 
     <bean id="gcmService" class="com.planit.gcm.GCMBean"/>
+    <bean id="scheduler" class="com.planit.scheduling.Scheduler"/>
 
     <import resource="persistence-config.xml"/>
 
