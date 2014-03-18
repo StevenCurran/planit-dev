@@ -26,12 +26,12 @@ public class UserSchedule {
     public UserSchedule(User u, DateTime startDate, DateTime endDate) {
         schedule = new LinkedList<BlockVector>();
         Duration duration = new Duration(startDate, endDate);
-        long numHalfHoursInWindow = duration.getStandardHours() * 2;
-        length = numHalfHoursInWindow;
+        length = duration.getStandardHours() * 2;
 
-        //List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
+        List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
+
+        /*
         List<PlanitEvent> events = new LinkedList<>();
-
         PlanitEvent e1 = new PlanitEvent();
 
         e1.setName("Event 1");
@@ -68,24 +68,25 @@ public class UserSchedule {
         e4.setEndDate(ed.toDate());
         e4.setPriority(5);
         events.add(e4);
-
-        // remove dates that are not in the window
+        */
 
         // initialise vectors to zero
-        for (int i = 0; i < numHalfHoursInWindow; i++) {
+        for (int i = 0; i < length; i++) {
             schedule.add(new BlockVector());
         }
 
         // iterate through each event and add the relevant data to the relevant block vectors
-
         for (PlanitEvent event : events) {
             long eventDuration = event.getDurationInHalfHours();
             long offset = event.getStartTimeOffset(startDate);
-
             for (int i = 0; i < eventDuration; i++) {
                 // here we build up the block matrix
                 // preferenceScore = user.getUserPreferenceMatrix[day][halfHour][tag];
-                schedule.set((int) offset + i, new BlockVector(event.getPriority(), event.getNumberOfAttendees()));
+                int pos = (int) offset + i;
+                // don't include this event if the offset is negative or longer than the duration of the window
+                if(pos >= 0 && pos < length){
+                    schedule.set(pos, new BlockVector(event.getPriority(), event.getNumberOfAttendees()));
+                }
             }
         }
     }

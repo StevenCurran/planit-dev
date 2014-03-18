@@ -73,17 +73,12 @@ public class Scheduler {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
         for (User attendee : attendees) {
-            UserSchedule sched = new UserSchedule(attendee, startDate, endDate);
-            schedules.add(sched);
+            schedules.add(new UserSchedule(attendee, startDate, endDate));
         }
 
         int bestStartBlock = searchSchedules(schedules, duration);
 
         DateTime bestStartTime = startDate.plusMinutes(bestStartBlock * 30);
-
-        //List<DateTime> bestDates = new LinkedList<DateTime>();
-        //bestDates.add(bestStartTime);
-        DateTime bestDate = new DateTime();
-        return bestDate;
+        return bestStartTime;
     }
 }

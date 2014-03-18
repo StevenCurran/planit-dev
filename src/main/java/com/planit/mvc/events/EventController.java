@@ -97,10 +97,10 @@ public class EventController {
         int pDuration = Integer.parseInt(duration);
         int pPriority = Integer.parseInt(priority);
 
-        return getBestTime(users, pStartDate, pEndDate, pDuration, pPriority);
+        return getBestDate(users, pStartDate, pEndDate, pDuration, pPriority);
     }
 
-    public String getBestTime(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)
+    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)
     {
         Scheduler s = new Scheduler();
         StringBuilder response = new StringBuilder();
