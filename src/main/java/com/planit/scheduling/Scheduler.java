@@ -1,5 +1,6 @@
 package com.planit.scheduling;
 
+import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import org.joda.time.DateTime;
@@ -80,6 +81,11 @@ public class Scheduler {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
         for (User attendee : attendees) {
+
+            List<PlanitEvent> eventsForUser = userRepository.findEventsForUser(attendee.getProviderId());
+            System.out.println(eventsForUser.size() + " Size is :!!!!");
+            System.out.println(eventsForUser);
+
             UserSchedule s=new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
             System.out.println("============================ HELLO JOSH-KUN, FOR ATTENDEE ID " + attendee.getProviderId() + " WE HAVE A SCHEDULE THAT LOOKS LIKE ");
             s.displaySchedule();
