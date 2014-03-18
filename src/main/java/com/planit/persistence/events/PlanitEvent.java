@@ -49,6 +49,8 @@ public class PlanitEvent {
         this.location = googleEvent.getLocation();
         this.timeZone = googleEvent.getStart().getTimeZone();
         this.priority = 3;
+
+        addAttendee(p);
     }
 
     public static List<PlanitEvent> getEvents(List<Event> events, User person) {
