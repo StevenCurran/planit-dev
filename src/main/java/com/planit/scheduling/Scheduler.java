@@ -1,13 +1,11 @@
 package com.planit.scheduling;
 
-import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class Scheduler {
         for (int i = 0; i < x.length; i++) {
             score += weightings[i] * (Math.sqrt(x[i]));
         }
-        System.out.println(score);
+        //System.out.println(score);
 
         return score;
     }
@@ -58,7 +56,7 @@ public class Scheduler {
 
         // for each user, get their schedule
         for (UserSchedule schedule : schedules) {
-            schedule.displaySchedule();
+            //schedule.displaySchedule();
             // get each possible event placement for that schedule and this duration
             int i = 0;
             for (List<BlockVector> placement : getPossibleEventPlacements(schedule, duration)) {
@@ -82,14 +80,8 @@ public class Scheduler {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
         for (User attendee : attendees) {
-
-            ArrayList<PlanitEvent> eventsForUser = userRepository.findEventsForUser(attendee.getProviderId());
-            System.out.println(eventsForUser.size() + " Size is :!!!!");
-            System.out.println(eventsForUser);
-
             UserSchedule s = new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
-            System.out.println("============================ HELLO JOSH-KUN, FOR ATTENDEE ID " + attendee.getProviderId() + " WE HAVE A SCHEDULE THAT LOOKS LIKE ");
-            s.displaySchedule();
+            //s.displaySchedule(); avoid this as it spams logs
             schedules.add(s);
         }
 

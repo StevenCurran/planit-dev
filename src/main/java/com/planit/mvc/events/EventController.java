@@ -33,44 +33,9 @@ public class EventController {
     @Autowired
     private Scheduler scheduler;
 
-    public static String getBody(HttpServletRequest request) throws IOException {
-
-        String body = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = null;
-
-        try {
-            InputStream inputStream = request.getInputStream();
-            if (inputStream != null) {
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                char[] charBuffer = new char[128];
-                int bytesRead = -1;
-                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
-                    stringBuilder.append(charBuffer, 0, bytesRead);
-                }
-            } else {
-                stringBuilder.append("");
-            }
-        } catch (IOException ex) {
-            throw ex;
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                    throw ex;
-                }
-            }
-        }
-
-        body = stringBuilder.toString();
-        return body;
-    }
-
     @RequestMapping(method = RequestMethod.POST, value = "/planit")
     @ResponseBody
     public String planit(HttpServletRequest request) {
-        System.out.println("===================== HELLO ENDPOINT GOT HIT =======================");
         String attendees = request.getParameter("attendees");
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
@@ -79,13 +44,9 @@ public class EventController {
 
 
         List<String> attendeeList = Arrays.asList(attendees.split(","));
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%% attendee list looks like this: " + attendeeList);
         List<User> users = new LinkedList<>();
-        System.out.println("going to go through the attendee id list:");
         for (String attendee : attendeeList) {
-            System.out.println("pulling out attendee from db with id = " + attendee);
             User a = userRepository.findOne(attendee);
-            System.out.println("we got a provider id of " + a.getProviderId());
             users.add(a);
         }
 
@@ -98,16 +59,11 @@ public class EventController {
         int pDuration = Integer.parseInt(duration);
         int pPriority = Integer.parseInt(priority);
 
-        String bestDate = getBestDate(users, pStartDate, pEndDate, pDuration, pPriority);
-        return bestDate;
+        return getBestDate(users, pStartDate, pEndDate, pDuration, pPriority);
     }
 
     public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
-
-        StringBuilder response = new StringBuilder();
-        DateTime bestDate = scheduler.getBestDate(attendees, startDate, endDate, duration, priority);
-        response.append(bestDate);
-        return response.toString();
+        return scheduler.getBestDate(attendees, startDate, endDate, duration, priority).toDate().toString();
     }
 
 }
