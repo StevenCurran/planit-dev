@@ -18,8 +18,8 @@ public interface UserRepository extends JpaRepository<User, String> {
 
 
 //    @Query(value = "select distinct e.* from \"Event\" e inner join \"event_user\" eu on eu.eventid = e.eventid inner join \"User\" u on u.userid = eu.userid where u.userid = ?1", nativeQuery = true)
-
-    @Query(value = "from Event as e inner join e.eventid as eid where userid = :userId")
+//from Event as e inner join e.eventid as eid where userid = :userId
+    @Query(value = "select distinct e from PlanitEvent e inner join e.attendees att where att.userId = :userId ")
     public ArrayList<PlanitEvent> findEventsForUser(String userId);
 
 /*
