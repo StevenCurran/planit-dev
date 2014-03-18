@@ -74,6 +74,7 @@ public class EventController {
     @RequestMapping(method = RequestMethod.POST, value = "/planit")
     @ResponseBody
     public String planit(HttpServletRequest request) {
+        System.out.println("===================== HELLO ENDPOINT GOT HIT =======================");
         String attendees = request.getParameter("attendees");
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
@@ -82,6 +83,7 @@ public class EventController {
 
 
         List<String> attendeeList = Arrays.asList(attendees.split(","));
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%% attendee list looks like this: "+attendeeList);
         List<User> users = new LinkedList<>();
         System.out.println("going to go through the attendee id list:");
         for(String attendee : attendeeList)
