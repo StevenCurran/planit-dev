@@ -27,7 +27,7 @@ public class User {
 
     //Allow Git
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "attendees")
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "attendees")
     private Set<PlanitEvent> events = new HashSet<>();
 
 
