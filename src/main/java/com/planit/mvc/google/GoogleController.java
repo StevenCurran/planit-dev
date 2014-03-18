@@ -132,7 +132,7 @@ public class GoogleController {
 
         //perform some setup of the calendar information.
         //   GoogleTokenResponse responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
-        //   Credential credential = flow.createAndStoreCredential(responseVar, null);
+        //   Credential credential = flow.createAndStoreCredenti§al(responseVar, null);
         calendarClient = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
 
 
@@ -188,7 +188,6 @@ public class GoogleController {
     @ResponseBody
     public List<User> getAttendees() {
         List<User> tempList = userRepository.findAll();
-        System.out.println("############################" + tempList.size() + "##########################");
         return tempList;
     }
 
