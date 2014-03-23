@@ -1,5 +1,7 @@
 package com.planit.mvc.events;
 
+import com.planit.persistence.events.EventRepository;
+import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import com.planit.scheduling.Scheduler;
@@ -25,6 +27,9 @@ public class EventController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Autowired
     private Scheduler scheduler;
@@ -61,6 +66,14 @@ public class EventController {
 
     public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
         return scheduler.getBestDate(attendees, startDate, endDate, duration, priority).toDate().toString();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/addevent")
+    @ResponseBody
+    public void addEvent(HttpServletRequest request) {
+        PlanitEvent event = new PlanitEvent();
+
+        eventRepository.save(event);
     }
 
 }
