@@ -5,6 +5,7 @@ import com.planit.gcm.GCMBean;
 import com.planit.persistence.events.EventRepository;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
+import com.planit.scheduling.DateTimeWithConflicts;
 import com.planit.scheduling.Scheduler;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,8 +70,12 @@ public class EventController {
         return getBestDate(users, pStartDate, pEndDate, pDuration, pPriority);
     }
 
-    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
-        return scheduler.getBestDate(attendees, startDate, endDate, duration, priority).toDate().toString();
+    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)
+    {
+        StringBuilder response = new StringBuilder();
+        DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees,startDate,endDate,duration,priority);
+        response.append(bestDatewc.getDateTime()+","+bestDatewc.getConflicts());
+        return response.toString();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addevent")

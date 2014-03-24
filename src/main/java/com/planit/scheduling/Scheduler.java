@@ -1,11 +1,13 @@
 package com.planit.scheduling;
 
+import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class Scheduler {
         for (int i = 0; i < x.length; i++) {
             score += weightings[i] * (Math.sqrt(x[i]));
         }
-        //System.out.println(score);
+        System.out.println(score);
 
         return score;
     }
@@ -50,13 +52,20 @@ public class Scheduler {
         return placements;
     }
 
-    private int searchSchedules(List<UserSchedule> schedules, int duration) {
+    public DateTimeWithConflicts getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
+        List<UserSchedule> schedules = new LinkedList<UserSchedule>();
+
+        for (User attendee : attendees) {
+            UserSchedule s=new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
+            schedules.add(s);
+        }
+
         final int numPossibleEventPlacements = (int) Math.floor(schedules.get(0).length - duration + 1);
         float[] scores = new float[numPossibleEventPlacements];
 
         // for each user, get their schedule
         for (UserSchedule schedule : schedules) {
-            //schedule.displaySchedule();
+            schedule.displaySchedule();
             // get each possible event placement for that schedule and this duration
             int i = 0;
             for (List<BlockVector> placement : getPossibleEventPlacements(schedule, duration)) {
@@ -73,21 +82,25 @@ public class Scheduler {
                 minIndex = i;
             }
         }
-        return minIndex;
-    }
 
-    public DateTime getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
-        List<UserSchedule> schedules = new LinkedList<UserSchedule>();
+        List<String> conflicts = new LinkedList<String>();
 
-        for (User attendee : attendees) {
-            UserSchedule s = new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
-            //s.displaySchedule(); avoid this as it spams logs
-            schedules.add(s);
+        for (UserSchedule schedule : schedules) {
+            List<BlockVector> meanwhile = schedule.getScheduleWindow(minIndex, minIndex + duration);
+            for (int i = 0; i < meanwhile.size(); i++)
+            {
+                String thisId=meanwhile.get(i).getId();
+                if (thisId!=null && !conflicts.contains(thisId))
+                {
+                    conflicts.add(thisId);
+                }
+            }
         }
 
-        int bestStartBlock = searchSchedules(schedules, duration);
+        DateTime bestStartTime = startDate.plusMinutes(minIndex * 30);
+        DateTimeWithConflicts dtwc = new DateTimeWithConflicts(bestStartTime,conflicts);
 
-        DateTime bestStartTime = startDate.plusMinutes(bestStartBlock * 30);
-        return bestStartTime;
+
+        return dtwc;
     }
 }
