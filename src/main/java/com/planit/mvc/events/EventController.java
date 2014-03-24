@@ -1,5 +1,7 @@
 package com.planit.mvc.events;
 
+import com.google.android.gcm.server.Message;
+import com.planit.gcm.GCMBean;
 import com.planit.persistence.events.EventRepository;
 import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +36,9 @@ public class EventController {
 
     @Autowired
     private Scheduler scheduler;
+
+    @Autowired
+    private GCMBean gcmBean;
 
     @RequestMapping(method = RequestMethod.POST, value = "/planit")
     @ResponseBody
@@ -71,9 +77,27 @@ public class EventController {
     @RequestMapping(method = RequestMethod.POST, value = "/addevent")
     @ResponseBody
     public void addEvent(HttpServletRequest request) {
-        PlanitEvent event = new PlanitEvent();
+        String attendees = request.getParameter("attendees");
+        String userid = request.getParameter("userid");
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+        String eventName = request.getParameter("eventname");
 
-        eventRepository.save(event);
+        List<String> deviceIds = new ArrayList<>();
+
+        String[] people = attendees.split(",");
+        for (String s : people) {
+            User single = userRepository.findOne(s);
+            if(single.getDeviceId() != null){
+                deviceIds.add(single.getDeviceId());
+            }
+        }
+
+        User currentUser = userRepository.findOne(userid);
+        Message m = new Message.Builder().addData("message_type", "gcm").addData("data", currentUser.getFirstName() + " has been added to the event: " + eventName).addData("planit_message", "confirm").build();
+
+        gcmBean.sendMessageToUsers(m, deviceIds);
+
     }
 
 }
