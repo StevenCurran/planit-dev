@@ -1,10 +1,11 @@
 package com.planit.gcm;
+
+import com.google.android.gcm.server.Sender;
+
 import java.io.IOException;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-import com.google.android.gcm.server.Sender;
 
 public class GCMProxySender extends Sender {
     private QuotaGuardProxyAuthenticator proxy;

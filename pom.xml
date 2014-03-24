@@ -165,7 +165,6 @@
             <version>4.3.1.Final</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -183,7 +182,6 @@
             <artifactId>gcm-server</artifactId>
             <version>1.0.2</version>
         </dependency>
-
 
     </dependencies>
 

@@ -1,12 +1,9 @@
 package com.planit.scheduling;
 
-import com.planit.persistence.registration.User;
-import com.planit.persistence.registration.UserRepository;
 import com.planit.persistence.events.PlanitEvent;
+import com.planit.persistence.registration.User;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,61 +12,20 @@ import java.util.List;
  * Created by Josh on 26/02/14.
  */
 
-@Component
 public class UserSchedule {
     private List<BlockVector> schedule;
     public long length;
 
-    @Autowired
-    private UserRepository userRepository;
 
-    public UserSchedule(User u, DateTime startDate, DateTime endDate) {
+    public UserSchedule(User u, DateTime startDate, DateTime endDate, List<PlanitEvent> events) {
         schedule = new LinkedList<BlockVector>();
         Duration duration = new Duration(startDate, endDate);
         length = duration.getStandardHours() * 2;
 
-        System.out.println("JOSH-KUN, WE ARE NOW BUILDING A SCHEDULE FOR USER "+u.getProviderId());
-        List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
+        System.out.println("JOSH-KUN, WE ARE NOW BUILDING A SCHEDULE FOR USER " + u.getProviderId());
+        System.out.println("trying to break userRepository %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        //List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
 
-        /*
-        List<PlanitEvent> events = new LinkedList<>();
-        PlanitEvent e1 = new PlanitEvent();
-
-        e1.setName("Event 1");
-        DateTime sd = new DateTime(2012, 12, 12, 12, 00);
-        DateTime ed = new DateTime(2012, 12, 12, 13, 00);
-        e1.setStartDate(sd.toDate());
-        e1.setEndDate(ed.toDate());
-        e1.setPriority(2);
-        events.add(e1);
-
-        PlanitEvent e2 = new PlanitEvent();
-        e2.setName("Event 2");
-        sd = new DateTime(2012, 12, 12, 14, 00);
-        ed = new DateTime(2012, 12, 12, 16, 00);
-        e2.setStartDate(sd.toDate());
-        e2.setEndDate(ed.toDate());
-        e2.setPriority(3);
-        events.add(e2);
-
-        PlanitEvent e3 = new PlanitEvent();
-        e3.setName("Event 3");
-        sd = new DateTime(2012, 12, 12, 17, 00);
-        ed = new DateTime(2012, 12, 12, 17, 30);
-        e3.setStartDate(sd.toDate());
-        e3.setEndDate(ed.toDate());
-        e3.setPriority(4);
-        events.add(e3);
-
-        PlanitEvent e4 = new PlanitEvent();
-        e4.setName("Event 2");
-        sd = new DateTime(2012, 12, 12, 16, 00);
-        ed = new DateTime(2012, 12, 12, 17, 00);
-        e4.setStartDate(sd.toDate());
-        e4.setEndDate(ed.toDate());
-        e4.setPriority(5);
-        events.add(e4);
-        */
 
         // initialise vectors to zero
         for (int i = 0; i < length; i++) {
@@ -85,7 +41,7 @@ public class UserSchedule {
                 // preferenceScore = user.getUserPreferenceMatrix[day][halfHour][tag];
                 int pos = (int) offset + i;
                 // don't include this event if the offset is negative or longer than the duration of the window
-                if(pos >= 0 && pos < length){
+                if (pos >= 0 && pos < length) {
                     schedule.set(pos, new BlockVector(event.getPriority(), event.getNumberOfAttendees()));
                 }
             }

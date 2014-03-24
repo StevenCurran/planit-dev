@@ -2,6 +2,7 @@ package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
 import com.planit.persistence.events.PlanitEvent;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -24,16 +25,12 @@ public class User {
     private String email;
     private String location;
     private String deviceId;
-
-    //Allow Git
-
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "attendees")
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees")
     private Set<PlanitEvent> events = new HashSet<>();
-
 
     protected User() {
     }
-
 
     public User(String first, String last, String profileUrl, String email, String location, String providerId) {
         this.firstName = first;
@@ -55,7 +52,41 @@ public class User {
         this.userId = person.getId();
     }
 
+    public String getLocation() {
+        return location;
+    }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getProfileUrl() {
+        return profileUrl;
+    }
+
+    public void setProfileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    //Allow Git
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @JsonIgnore
     public Set<PlanitEvent> getEvents() {
         return this.events;
     }
@@ -68,20 +99,27 @@ public class User {
         this.userId = providerId;
     }
 
-
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getDeviceId() {
         return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }

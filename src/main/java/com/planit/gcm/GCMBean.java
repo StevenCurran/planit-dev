@@ -1,9 +1,9 @@
 package com.planit.gcm;
 
 import com.google.android.gcm.server.Message;
-import com.google.android.gcm.server.Sender;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -23,10 +23,21 @@ public class GCMBean {
 
     public GCMBean() {
         this.proxy = new QuotaGuardProxyAuthenticator();
-        this.sender = new GCMProxySender(API_KEY,proxy);
+        this.sender = new GCMProxySender(API_KEY, proxy);
     }
 
-    public void send(String name){
+    public static void main(String[] args){
+        GCMBean b = new GCMBean();
+
+        Message m = new Message.Builder().addData("message_type", "gcm").addData("data", "Hello Gareth...lots of love Planit").build();
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("APA91bFGr2W6t9xDL1BmtPrgaixqw9Ea0tLcU36AeLzASdoYAmswtpaSdT32qJVbZ72YRV94piVxkt3N94DrcyO13xJ7gLAvEjAuWzIFChzygRphlrji9eIjtFa7PT3PzjjqmJlgp6PKtuJVEw4SGRWWucaqH-S5tQ");
+        b.sendMessageToUsers(m, strings);
+        System.out.println("Sent");
+
+    }
+
+    public void send(String name) {
         Message m = new Message.Builder().addData("message_type", "gcm").addData("data", "hello there " + name + " Welcome to planit!").build();
 
         List<String> id = new ArrayList<>();
@@ -42,7 +53,7 @@ public class GCMBean {
 
     }
 
-    public void sendRegConfirm(String name, String deviceId){
+    public void sendRegConfirm(String name, String deviceId) {
         Message m = new Message.Builder().addData("message_type", "gcm").addData("data", "Device registered with planit. " + name).build();
 
         List<String> id = new ArrayList<>();
@@ -58,7 +69,7 @@ public class GCMBean {
 
     }
 
-    public void sendMessageToUsers(Message m, List<String> deviceIds){
+    public void sendMessageToUsers(Message m, List<String> deviceIds) {
         try {
             proxy.setProxy();
             sender.send(m, deviceIds, 1);
