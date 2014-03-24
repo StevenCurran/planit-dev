@@ -16,16 +16,11 @@ public class UserSchedule {
     private List<BlockVector> schedule;
     public long length;
 
-
     public UserSchedule(User u, DateTime startDate, DateTime endDate, List<PlanitEvent> events) {
         schedule = new LinkedList<BlockVector>();
         Duration duration = new Duration(startDate, endDate);
         length = duration.getStandardHours() * 2;
-
-        System.out.println("JOSH-KUN, WE ARE NOW BUILDING A SCHEDULE FOR USER " + u.getProviderId());
-        System.out.println("trying to break userRepository %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         //List<PlanitEvent> events = userRepository.findEventsForUser(u.getProviderId());
-
 
         // initialise vectors to zero
         for (int i = 0; i < length; i++) {
@@ -42,7 +37,7 @@ public class UserSchedule {
                 int pos = (int) offset + i;
                 // don't include this event if the offset is negative or longer than the duration of the window
                 if (pos >= 0 && pos < length) {
-                    schedule.set(pos, new BlockVector(event.getPriority(), event.getNumberOfAttendees()));
+                    schedule.set(pos, new BlockVector(event.getEventId(), event.getPriority(), event.getNumberOfAttendees()));
                 }
             }
         }

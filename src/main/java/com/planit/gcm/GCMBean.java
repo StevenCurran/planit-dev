@@ -3,7 +3,6 @@ package com.planit.gcm;
 import com.google.android.gcm.server.Message;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -26,7 +25,7 @@ public class GCMBean {
         this.sender = new GCMProxySender(API_KEY, proxy);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         GCMBean b = new GCMBean();
 
         Message m = new Message.Builder().addData("message_type", "gcm").addData("data", "Hello Gareth...lots of love Planit").build();

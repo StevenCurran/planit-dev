@@ -6,17 +6,18 @@ package com.planit.scheduling;
 public class BlockVector {
     private int[] vector;
     public static final int dimension = 2;
+    private String eventId;
 
-    public BlockVector(int priority, int extraAttendees) {
+    public BlockVector(String id, int priority, int extraAttendees) {
+        eventId = id;
         vector = new int[dimension];
         vector[0] = priority;
         vector[1] = extraAttendees;
     }
 
     public BlockVector() {
-        this(0, 0);
+        this(null, 0, 0);
     }
-
 
     public int getAtIndex(int i) {
         return vector[i];
@@ -29,6 +30,15 @@ public class BlockVector {
     public int getExtraAttendees() {
         return vector[1];
     }
+
+    public String getId() {
+        return eventId;
+    }
+
+    public void setEventId(String id) {
+        eventId = id;
+    }
+
 
     public void display() {
         System.out.println("===");
