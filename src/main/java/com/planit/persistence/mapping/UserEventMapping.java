@@ -14,9 +14,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "\"event_user\"")
 @AssociationOverrides({
-        @AssociationOverride(name = "Event",joinColumns = @JoinColumn(name = "eventId")),
-        @AssociationOverride(name = "User", joinColumns = @JoinColumn(name = "userId")) })
+        @AssociationOverride(name = "pk.planitEvent",joinColumns = @JoinColumn(name = "eventId")),
+        @AssociationOverride(name = "pk.userId", joinColumns = @JoinColumn(name = "userId")) })
 public class UserEventMapping {
+
+
+    private UserEventMappingID pk = new UserEventMappingID();
 
     private Attending attendingStatus;
     private User user;
@@ -34,6 +37,31 @@ public class UserEventMapping {
 
     public void setStatus(Attending attendingStatus) {
         this.attendingStatus = attendingStatus;
+    }
+
+    @EmbeddedId
+    public UserEventMappingID getPk() {
+        return pk;
+    }
+
+    public void setPk(UserEventMappingID pk) {
+        this.pk = pk;
+    }
+
+    public PlanitEvent getPlanitEvent(){
+        return getPk().getPlanitEvent();
+    }
+
+    public void setPlanitEvent(PlanitEvent planitEvent) {
+        getPk().setPlanitEvent(planitEvent);
+    }
+
+    public User getUser() {
+        return getPk().getUser();
+    }
+
+    public void setUser(User user) {
+        getPk().setUser(user);
     }
 
 
