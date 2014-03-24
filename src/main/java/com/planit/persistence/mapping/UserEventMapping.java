@@ -18,7 +18,7 @@ import javax.persistence.*;
         @AssociationOverride(name = "pk.userId", joinColumns = @JoinColumn(name = "userId")) })
 public class UserEventMapping {
 
-
+    @EmbeddedId
     private UserEventMappingID pk = new UserEventMappingID();
 
     private Attending attendingStatus;
@@ -39,7 +39,6 @@ public class UserEventMapping {
         this.attendingStatus = attendingStatus;
     }
 
-    @EmbeddedId
     public UserEventMappingID getPk() {
         return pk;
     }
