@@ -20,6 +20,17 @@ public class Scheduler {
 
     private float[] weightings = {1.0f, 1.0f, 1.0f};
 
+
+    private float[][] naivePreferenceMatrix = {
+            {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f},
+            {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f},
+            {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f},
+            {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f},
+            {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f},
+            {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f},
+            {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f}
+    };
+
     private double f(List<BlockVector> bv) {
         double x[] = new double[BlockVector.dimension];
         for (BlockVector v : bv) {
@@ -65,10 +76,12 @@ public class Scheduler {
         for (UserSchedule schedule : schedules) {
             schedule.displaySchedule();
             // get each possible event placement for that schedule and this duration
+            DateTime currentDateTime = startDate;
             int i = 0;
             for (List<BlockVector> placement : getPossibleEventPlacements(schedule, duration)) {
                 double score = f(placement);
-                scores[i++] += score;
+                scores[i] += score * naivePreferenceMatrix[currentDateTime.plusMinutes(i * 30).getDayOfWeek()-1][currentDateTime.plusMinutes(i * 30).getHourOfDay()];
+                i++;
             }
         }
 
