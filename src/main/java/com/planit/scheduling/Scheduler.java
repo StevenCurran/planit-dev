@@ -1,13 +1,11 @@
 package com.planit.scheduling;
 
-import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,7 +54,7 @@ public class Scheduler {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
         for (User attendee : attendees) {
-            UserSchedule s=new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
+            UserSchedule s = new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
             schedules.add(s);
         }
 
@@ -87,18 +85,16 @@ public class Scheduler {
 
         for (UserSchedule schedule : schedules) {
             List<BlockVector> meanwhile = schedule.getScheduleWindow(minIndex, minIndex + duration);
-            for (int i = 0; i < meanwhile.size(); i++)
-            {
-                String thisId=meanwhile.get(i).getId();
-                if (thisId!=null && !conflicts.contains(thisId))
-                {
+            for (int i = 0; i < meanwhile.size(); i++) {
+                String thisId = meanwhile.get(i).getId();
+                if (thisId != null && !conflicts.contains(thisId)) {
                     conflicts.add(thisId);
                 }
             }
         }
 
         DateTime bestStartTime = startDate.plusMinutes(minIndex * 30);
-        DateTimeWithConflicts dtwc = new DateTimeWithConflicts(bestStartTime,conflicts);
+        DateTimeWithConflicts dtwc = new DateTimeWithConflicts(bestStartTime, conflicts);
 
 
         return dtwc;

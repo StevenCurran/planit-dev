@@ -31,14 +31,12 @@ public class BlockVector {
         return vector[1];
     }
 
-    public String getId()
-    {
+    public String getId() {
         return eventId;
     }
 
-    public void setEventId(String id)
-    {
-        eventId=id;
+    public void setEventId(String id) {
+        eventId = id;
     }
 
 

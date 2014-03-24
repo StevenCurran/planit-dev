@@ -70,11 +70,10 @@ public class EventController {
         return getBestDate(users, pStartDate, pEndDate, pDuration, pPriority);
     }
 
-    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)
-    {
+    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
         StringBuilder response = new StringBuilder();
-        DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees,startDate,endDate,duration,priority);
-        response.append(bestDatewc.getDateTime()+","+bestDatewc.getConflicts());
+        DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees, startDate, endDate, duration, priority);
+        response.append(bestDatewc.getDateTime() + "," + bestDatewc.getConflicts());
         return response.toString();
     }
 
@@ -97,9 +96,11 @@ public class EventController {
             }
         }
 
+        System.out.println("Sending to: " + Arrays.toString(deviceIds.toArray()));
+
         User currentUser = userRepository.findOne(userid);
         //notificationRepository.save(new Notification());
-        Message m = new Message.Builder().addData("message_type", "gcm").addData("data", currentUser.getFirstName() + " has been added to the event: " + eventName).addData("planit_message", "confirm").build();
+        Message m = new Message.Builder().addData("message_type", "gcm").addData("data", currentUser.getFirstName() + " has added you to an event: " + eventName).addData("planit_message", "confirm").build();
 
         gcmBean.sendMessageToUsers(m, deviceIds);
 
