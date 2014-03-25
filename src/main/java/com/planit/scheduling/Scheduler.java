@@ -74,7 +74,6 @@ public class Scheduler {
 
         // for each user, get their schedule
         for (UserSchedule schedule : schedules) {
-            schedule.displaySchedule();
             // get each possible event placement for that schedule and this duration
             DateTime currentDateTime = startDate;
             int i = 0;
