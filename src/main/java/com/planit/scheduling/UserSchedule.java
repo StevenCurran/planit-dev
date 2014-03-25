@@ -72,7 +72,7 @@ public class UserSchedule {
     }
 
     public List<BlockVector> getScheduleWindow(int s0, int s1) {
-        if ((s1 <= s0) || (s1 > schedule.size())) {
+        if ((s1 <= s0) || (s1 > this.length)) {
             return null;
         }
 

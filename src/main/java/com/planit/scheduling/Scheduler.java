@@ -97,6 +97,7 @@ public class Scheduler {
         List<String> conflicts = new LinkedList<String>();
 
         for (UserSchedule schedule : schedules) {
+            System.out.println("SCHEDULE LENGTH IS "+schedule.length);
             System.out.println("++++++++++++++ USER SCHEDULE LOOKS LIKE THIS: ");
             schedule.displaySchedule();
             System.out.println("================ ----------============= = - = ==============------ "+minIndex + "," + duration + "="+(minIndex+duration));
