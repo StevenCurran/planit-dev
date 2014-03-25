@@ -115,22 +115,8 @@ public class GoogleController {
             response.addHeader("valid_user", "true");
             return profile;
         }
-        userRepository.save(this.person);
-
-        return profile;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/gcalEvents")
-    @ResponseBody
-    public List<PlanitEvent> getGcalEvents() throws IOException {
-        String jsonResp = "";
         CalendarList feed = null;
-        List<PlanitEvent> events = new ArrayList<>();
 
-
-        //perform some setup of the calendar information.
-        //   GoogleTokenResponse responseVar = flow.newTokenRequest(this.authToken).setRedirectUri(CALLBACK_URI).execute();
-        //   Credential credential = flow.createAndStoreCredenti§al(responseVar, null);
         calendarClient = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
 
 
@@ -142,6 +128,7 @@ public class GoogleController {
         Date today = cal.getTime();
         cal.add(java.util.Calendar.DATE, 30);
 
+        List<PlanitEvent> events = new ArrayList<>();
 
         for (CalendarListEntry entry : feed.getItems()) { //This line is for multiple calendars. ie the acls with different colours.
 
@@ -162,9 +149,17 @@ public class GoogleController {
 
         taskExecutor.execute(new EventPersistenceTask(this.person, events, eventRepository));
 
-        return events;
+        userRepository.save(this.person);
 
 
+        return profile;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/gcalEvents")
+    @ResponseBody
+    public List<PlanitEvent> getGcalEvents(HttpServletRequest request) throws IOException {
+        String userid = request.getParameter("userid");
+        return userRepository.findEventsForUser(userid);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addEvent")
