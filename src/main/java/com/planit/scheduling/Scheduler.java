@@ -97,9 +97,18 @@ public class Scheduler {
         List<String> conflicts = new LinkedList<String>();
 
         for (UserSchedule schedule : schedules) {
-
+            System.out.println("++++++++++++++ USER SCHEDULE LOOKS LIKE THIS: ");
+            schedule.displaySchedule();
             System.out.println("================ ----------============= = - = ==============------ "+minIndex + "," + duration + "="+(minIndex+duration));
+
             List<BlockVector> meanwhile = schedule.getScheduleWindow(minIndex, minIndex + duration);
+            if(meanwhile == null){
+                System.out.println("meanwhile is null!");
+            }
+            else{
+                System.out.println("meanwhile is NOT NULL");
+            }
+
             for (int i = 0; i < meanwhile.size(); i++) {
                 String thisId = meanwhile.get(i).getId();
                 if (thisId != null && !conflicts.contains(thisId)) {
