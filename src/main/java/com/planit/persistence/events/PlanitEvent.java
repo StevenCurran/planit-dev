@@ -1,7 +1,6 @@
 package com.planit.persistence.events;
 
 import com.google.api.services.calendar.model.Event;
-import com.planit.persistence.mapping.UserEventMapping;
 import com.planit.persistence.registration.User;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -29,8 +28,11 @@ public class PlanitEvent {
     private int priority;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<UserEventMapping> eventAttendees = new HashSet<UserEventMapping>();
-
+    @JoinTable(name = "event_user", joinColumns = {
+            @JoinColumn(name = "eventId", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "userId",
+                    nullable = false, updatable = false)})
+    private Set<User> attendees = new HashSet<>();
 
     public PlanitEvent() {
 
@@ -48,14 +50,14 @@ public class PlanitEvent {
         this.timeZone = googleEvent.getStart().getTimeZone();
         this.priority = 3;
 
-        addAttendee(p, UserEventMapping.Attending.ATTENDING);
+        addAttendee(p);
     }
 
     public static List<PlanitEvent> getEvents(List<Event> events, User person) {
         List<PlanitEvent> pE = new ArrayList<>();
         for (Event event : events) {
             PlanitEvent p = new PlanitEvent(event, person);
-            p.addAttendee(person, UserEventMapping.Attending.ATTENDING);
+            p.addAttendee(person);
             pE.add(p);
         }
         return pE;
@@ -101,20 +103,20 @@ public class PlanitEvent {
         return timeZone;
     }
 
-    public Set<UserEventMapping> getEventAttendees() {
-        return eventAttendees;
+    public Set<User> getAttendees() {
+        return attendees;
     }
 
     public String getEventId() {
         return eventId;
     }
 
-    public Set<UserEventMapping> getCategories() {
-        return this.eventAttendees;
+    public Set<User> getCategories() {
+        return this.attendees;
     }
 
-    public void addAttendee(User u, UserEventMapping.Attending attendingStatus) {
-        eventAttendees.add(new UserEventMapping(u,this,attendingStatus));
+    public void addAttendee(User u) {
+        attendees.add(u);
     }
 
     public long getDurationInHalfHours() {
@@ -146,7 +148,7 @@ public class PlanitEvent {
     }
 
     public int getNumberOfAttendees() {
-        return eventAttendees.size();
+        return attendees.size();
     }
 
 
