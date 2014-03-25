@@ -57,6 +57,7 @@ public class GCMBean {
 
         List<String> id = new ArrayList<>();
         id.add(deviceId);
+        System.out.println("Sending to: " + id.toString());
         try {
             proxy.setProxy();
             sender.send(m, id, 1);

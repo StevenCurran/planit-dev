@@ -200,6 +200,8 @@ public class GoogleController {
             one.setDeviceId(deviceId);
             userRepository.save(one);
         }
+
+        System.out.println("Registereing :" + one.getFirstName() + " " + one.getLastName() + " ID: " + one.getProviderId() +":" + one.getUserId());
         gcmService.sendRegConfirm(this.person.getFirstName() + " " + this.person.getLastName(), deviceId);
     }
 
