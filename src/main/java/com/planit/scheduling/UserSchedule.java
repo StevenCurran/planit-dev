@@ -16,6 +16,17 @@ public class UserSchedule {
     private List<BlockVector> schedule;
     public long length;
 
+    private float[][] naivePreferenceMatrix = {
+            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
+            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
+            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
+            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
+            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
+            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
+            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f}
+            //{0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f},
+    };
+
     public UserSchedule(User u, DateTime startDate, DateTime endDate, List<PlanitEvent> events) {
         schedule = new LinkedList<BlockVector>();
         Duration duration = new Duration(startDate, endDate);
@@ -37,7 +48,8 @@ public class UserSchedule {
                 int pos = (int) offset + i;
                 // don't include this event if the offset is negative or longer than the duration of the window
                 if (pos >= 0 && pos < length) {
-                    schedule.set(pos, new BlockVector(event.getEventId(), event.getPriority(), event.getNumberOfAttendees()));
+                    float uPref = naivePreferenceMatrix[startDate.plusMinutes(pos * 30).getDayOfWeek()-1][startDate.plusMinutes(pos * 30).getHourOfDay()];
+                    schedule.set(pos, new BlockVector(event.getEventId(), event.getPriority(), event.getNumberOfAttendees(), uPref));
                 }
             }
         }

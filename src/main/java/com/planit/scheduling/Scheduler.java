@@ -1,5 +1,6 @@
 package com.planit.scheduling;
 
+import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import org.joda.time.DateTime;
@@ -18,19 +19,8 @@ public class Scheduler {
     @Autowired
     private UserRepository userRepository;
 
-    private float[] weightings = {1.0f, 1.0f, 1.0f};
+    private float[] weightings = {1.0f, 1.0f, 1.0f, 1.0f};
 
-
-    private float[][] naivePreferenceMatrix = {
-            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
-            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
-            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
-            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
-            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
-            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f},
-            {2.2f, 2.4f, 2.6f, 2.4f, 2.2f, 2.0f, 1.2f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.3f, 1.4f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f, 1.2f, 1.4f, 1.6f, 1.8f, 2.0f}
-            //{0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.85f, 0.9f, 1.0f, 0.85f, 0.5f, 1.0f, 0.9f, 0.85f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f, 0.1f},
-    };
 
     private double f(List<BlockVector> bv) {
         double x[] = new double[BlockVector.dimension];
@@ -62,6 +52,15 @@ public class Scheduler {
         return placements;
     }
 
+    public List<String> getConflictingEvents(User u, PlanitEvent event)
+    {
+        List<User> attendees = new LinkedList<User>();
+        attendees.add(u);
+        DateTimeWithConflicts dtwc = getBestDate(attendees, new DateTime(event.getStartDate()),new DateTime(event.getEndDate()),(int)event.getDurationInHalfHours(),event.getPriority());
+        return dtwc.getConflicts();
+    }
+
+
     public DateTimeWithConflicts getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
@@ -81,7 +80,7 @@ public class Scheduler {
             int i = 0;
             for (List<BlockVector> placement : getPossibleEventPlacements(schedule, duration)) {
                 double score = f(placement);
-                scores[i] += score * naivePreferenceMatrix[currentDateTime.plusMinutes(i * 30).getDayOfWeek()-1][currentDateTime.plusMinutes(i * 30).getHourOfDay()];
+                scores[i] += score;
                 i++;
             }
         }

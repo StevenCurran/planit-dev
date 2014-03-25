@@ -50,7 +50,6 @@ public class EventController {
         String duration = request.getParameter("duration");
         String priority = request.getParameter("priority");
 
-
         List<String> attendeeList = Arrays.asList(attendees.split(","));
         List<User> users = new LinkedList<>();
         for (String attendee : attendeeList) {
@@ -74,10 +73,10 @@ public class EventController {
     public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)
     {
         StringBuilder response = new StringBuilder();
-        DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees,startDate,endDate,duration,priority);
+        DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees, startDate, endDate, duration, priority);
 
-        response.append(bestDatewc.getDateTime());
-        String prefix = ",";
+        response.append(bestDatewc.getDateTime() + ",");
+        String prefix = "";
         for(String s : bestDatewc.getConflicts())
         {
             response.append(prefix + s);
@@ -87,7 +86,30 @@ public class EventController {
         return response.toString();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/addevent")
+    @RequestMapping(method = RequestMethod.POST, value = "/getConflicts")
+    @ResponseBody
+    public String getConflicts(HttpServletRequest request) {
+        String userId = request.getParameter("userid");
+        String eventId = request.getParameter("eventid");
+
+        User u = userRepository.findOne(userId);
+        PlanitEvent e = eventRepository.findOne(eventId);
+
+        List<String> conflicts = scheduler.getConflictingEvents(u,e);
+
+        String prefix = "";
+
+        StringBuilder response = new StringBuilder();
+        for(String s : conflicts)
+        {
+            response.append(prefix + s);
+            prefix = "|";
+        }
+
+        return response.toString();
+    }
+
+        @RequestMapping(method = RequestMethod.POST, value = "/addevent")
     @ResponseBody
     public void addEvent(HttpServletRequest request) {
         String attendees = request.getParameter("attendees");

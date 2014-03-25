@@ -4,31 +4,24 @@ package com.planit.scheduling;
  * Created by Josh on 26/02/14.
  */
 public class BlockVector {
-    private int[] vector;
-    public static final int dimension = 2;
+    private float[] vector;
+    public static final int dimension = 3;
     private String eventId;
 
-    public BlockVector(String id, int priority, int extraAttendees) {
+    public BlockVector(String id, float priority, float extraAttendees, float uPref) {
         eventId = id;
-        vector = new int[dimension];
+        vector = new float[dimension];
         vector[0] = priority;
         vector[1] = extraAttendees;
+        vector[2] = uPref;
     }
 
     public BlockVector() {
-        this(null, 0, 0);
+        this(null, 0.0f, 0.0f, 0.0f);
     }
 
-    public int getAtIndex(int i) {
+    public float getAtIndex(int i) {
         return vector[i];
-    }
-
-    public int getPriority() {
-        return vector[0];
-    }
-
-    public int getExtraAttendees() {
-        return vector[1];
     }
 
     public String getId() {
