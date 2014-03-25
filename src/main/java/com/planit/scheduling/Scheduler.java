@@ -102,7 +102,7 @@ public class Scheduler {
             schedule.displaySchedule();
             System.out.println("================ ----------============= = - = ==============------ "+minIndex + "," + duration + "="+(minIndex+duration));
 
-            List<BlockVector> meanwhile = schedule.getScheduleWindow(minIndex, minIndex + duration);
+            List<BlockVector> meanwhile = schedule.getScheduleWindow(minIndex, minIndex + duration-1);
             if(meanwhile == null){
                 System.out.println("meanwhile is null!");
             }
