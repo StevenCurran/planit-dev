@@ -3,6 +3,7 @@ package com.planit.mvc.events;
 import com.google.android.gcm.server.Message;
 import com.planit.gcm.GCMBean;
 import com.planit.persistence.events.EventRepository;
+import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
 import com.planit.persistence.registration.UserRepository;
 import com.planit.scheduling.DateTimeWithConflicts;
@@ -111,6 +112,13 @@ public class EventController {
 
         gcmBean.sendMessageToUsers(m, deviceIds);
 
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getevent")
+    @ResponseBody
+    public PlanitEvent getEvents(HttpServletRequest request){
+        String eventId = request.getParameter("eventid");
+        return eventRepository.findOne(eventId);
     }
 
 }
