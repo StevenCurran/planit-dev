@@ -25,6 +25,7 @@ public class User {
     private String email;
     private String location;
     private String deviceId;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees")
     private Set<PlanitEvent> events = new HashSet<>();

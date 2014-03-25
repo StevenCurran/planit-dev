@@ -11,14 +11,14 @@ import javax.persistence.*;
 
 
 
-@Entity
-@Table(name = "\"event_user\"")
-@AssociationOverrides({
-        @AssociationOverride(name = "pk.planitEvent",joinColumns = @JoinColumn(name = "eventId")),
-        @AssociationOverride(name = "pk.userId", joinColumns = @JoinColumn(name = "userId")) })
+//@Entity
+//@Table(name = "\"event_user\"")
+//@AssociationOverrides({
+//        @AssociationOverride(name = "pk.planitEvent",joinColumns = @JoinColumn(name = "eventId")),
+//        @AssociationOverride(name = "pk.userId", joinColumns = @JoinColumn(name = "userId")) })
 public class UserEventMapping {
 
-    @EmbeddedId
+//    @EmbeddedId
     private UserEventMappingID pk = new UserEventMappingID();
 
     private Attending attendingStatus;
