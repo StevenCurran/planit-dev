@@ -103,24 +103,22 @@ public class Scheduler {
             System.out.println("================ ----------============= = - = ==============------ "+minIndex + "," + duration + "="+(minIndex+duration));
 
             List<BlockVector> meanwhile = schedule.getScheduleWindow(minIndex, minIndex + duration-1);
-            if(meanwhile == null){
-                System.out.println("meanwhile is null!");
-            }
-            else{
-                System.out.println("meanwhile is NOT NULL");
-            }
-
-            for (int i = 0; i < meanwhile.size(); i++) {
-                String thisId = meanwhile.get(i).getId();
-                if (thisId != null && !conflicts.contains(thisId)) {
-                    conflicts.add(thisId);
+            if(meanwhile != null){
+                for (int i = 0; i < meanwhile.size(); i++) {
+                    List<String> theseIds = meanwhile.get(i).getIds();
+                    for(String thisId : theseIds){
+                        if (thisId != null && !conflicts.contains(thisId)) {
+                            conflicts.add(thisId);
+                        }
+                    }
                 }
             }
+
+
         }
 
         DateTime bestStartTime = startDate.plusMinutes(minIndex * 30);
         DateTimeWithConflicts dtwc = new DateTimeWithConflicts(bestStartTime, conflicts);
-
 
         return dtwc;
     }

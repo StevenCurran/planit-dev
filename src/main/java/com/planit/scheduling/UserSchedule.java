@@ -49,7 +49,9 @@ public class UserSchedule {
                 // don't include this event if the offset is negative or longer than the duration of the window
                 if (pos >= 0 && pos < length) {
                     float uPref = naivePreferenceMatrix[startDate.plusMinutes(pos * 30).getDayOfWeek()-1][startDate.plusMinutes(pos * 30).getHourOfDay()];
-                    schedule.set(pos, new BlockVector(event.getEventId(), event.getPriority(), event.getNumberOfAttendees(), uPref));
+                    BlockVector newBv = schedule.get(pos);
+                    newBv.add(new BlockVector(event.getEventId(), event.getPriority(), event.getNumberOfAttendees(), uPref));
+                    schedule.set(pos, newBv);
                 }
             }
         }
