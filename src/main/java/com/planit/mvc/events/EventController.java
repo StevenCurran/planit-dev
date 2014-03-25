@@ -94,6 +94,8 @@ public class EventController {
 
         User u = userRepository.findOne(userId);
         PlanitEvent e = eventRepository.findOne(eventId);
+        System.out.println("IN THE GETCONFLICTS METHOD, GETTING READY TO GO+++++++++++++++++++++++++++++++++++");
+        System.out.println("==___==____== YOU JUST ASKED FOR THE USER " + u.getFirstName() + " " + u.getLastName() + " AND THE EVENT " + e.getName());
 
         List<String> conflicts = scheduler.getConflictingEvents(u,e);
 
