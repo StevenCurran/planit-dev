@@ -201,7 +201,7 @@ public class GoogleController {
             userRepository.save(one);
         }
 
-        System.out.println("Registereing :" + one.getFirstName() + " " + one.getLastName() + " ID: " + one.getProviderId() +":" + one.getUserId());
+        System.out.println("Registereing :" + one.getFirstName() + " " + one.getLastName() + " ID: " + providerId);
         gcmService.sendRegConfirm(this.person.getFirstName() + " " + this.person.getLastName(), deviceId);
     }
 
