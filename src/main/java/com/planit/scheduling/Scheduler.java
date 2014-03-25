@@ -34,7 +34,6 @@ public class Scheduler {
         for (int i = 0; i < x.length; i++) {
             score += weightings[i] * (Math.sqrt(x[i]));
         }
-        System.out.println(score);
 
         return score;
     }
@@ -56,8 +55,9 @@ public class Scheduler {
     {
         List<User> attendees = new LinkedList<User>();
         attendees.add(u);
-        DateTimeWithConflicts dtwc = getBestDate(attendees, new DateTime(event.getStartDate()),new DateTime(event.getEndDate()),(int)event.getDurationInHalfHours(),event.getPriority());
-        return dtwc.getConflicts();
+        List<String> conflicts = getBestDate(attendees, new DateTime(event.getStartDate()),new DateTime(event.getEndDate()),(int)event.getDurationInHalfHours(),event.getPriority()).getConflicts();
+        conflicts.remove(event.getEventId());
+        return conflicts;
     }
 
 
@@ -97,11 +97,6 @@ public class Scheduler {
         List<String> conflicts = new LinkedList<String>();
 
         for (UserSchedule schedule : schedules) {
-            System.out.println("SCHEDULE LENGTH IS "+schedule.length);
-            System.out.println("++++++++++++++ USER SCHEDULE LOOKS LIKE THIS: ");
-            schedule.displaySchedule();
-            System.out.println("================ ----------============= = - = ==============------ "+minIndex + "," + duration + "="+(minIndex+duration));
-
             List<BlockVector> meanwhile = schedule.getScheduleWindow(minIndex, minIndex + duration-1);
             if(meanwhile != null){
                 for (int i = 0; i < meanwhile.size(); i++) {
