@@ -111,10 +111,7 @@ public class GoogleController {
         Person profile = plus.people().get("me").execute();
         this.person = new User(profile);
 
-        if (userRepository.findOne(profile.getId()) != null) {
-            response.addHeader("valid_user", "true");
-            return profile;
-        }
+
         CalendarList feed = null;
 
         calendarClient = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build();
@@ -123,6 +120,7 @@ public class GoogleController {
         feed = calendarClient.calendarList().list().execute();
 
 
+        System.out.println("Getting your events! ");
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.add(java.util.Calendar.DATE, -7);
         Date today = cal.getTime();
@@ -147,9 +145,20 @@ public class GoogleController {
 
         }
 
+        System.out.println("Saving person!");
+        userRepository.save(this.person);
+        System.out.println("Person Saved!!");
+
+        System.out.println("We have found " + events.size() + " events!!!");
         taskExecutor.execute(new EventPersistenceTask(this.person, events, eventRepository));
 
-        userRepository.save(this.person);
+
+        if (userRepository.findOne(profile.getId()) != null) {
+            response.addHeader("valid_user", "true");
+            return profile;
+        }
+
+
 
 
         return profile;

@@ -30,7 +30,7 @@ public class GCMBean {
 
         Message m = new Message.Builder().addData("message_type", "gcm").addData("data", "Hello Gareth...lots of love Planit").build();
         ArrayList<String> strings = new ArrayList<>();
-        strings.add("APA91bFGr2W6t9xDL1BmtPrgaixqw9Ea0tLcU36AeLzASdoYAmswtpaSdT32qJVbZ72YRV94piVxkt3N94DrcyO13xJ7gLAvEjAuWzIFChzygRphlrji9eIjtFa7PT3PzjjqmJlgp6PKtuJVEw4SGRWWucaqH-S5tQ");
+        strings.add("APA91bEKC1HZuWh40W2tBU58SxzUTpkuipXczqH_6Q9dLLNRiYFlmA5ChvA37h0HHl0k2HTzKZNHJjnb3JkwqqVJZn8A-ymEnja_VPViMHfdxGxImyERp-W8wA9HG1aBy-bBqoJ3ORSSmIX1D0npR6QJfdVgEwFjjw");
         b.sendMessageToUsers(m, strings);
         System.out.println("Sent");
 

@@ -2,7 +2,6 @@ package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
 import com.planit.persistence.events.PlanitEvent;
-import com.planit.persistence.mapping.eventUsers;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
@@ -28,7 +27,8 @@ public class User {
     private String deviceId;
 
     @JsonIgnore
-    private Set<eventUsers> events = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees")
+    private Set<PlanitEvent> events = new HashSet<>();
 
     protected User() {
     }
@@ -88,8 +88,7 @@ public class User {
     }
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "pk.user")
-    public Set<eventUsers> getEvents() {
+    public Set<PlanitEvent> getEvents() {
         return this.events;
     }
 
