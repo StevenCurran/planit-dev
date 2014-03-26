@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Josh & Stephen on 18/03/14.
@@ -71,17 +74,11 @@ public class EventController {
         StringBuilder response = new StringBuilder();
         DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees, startDate, endDate, duration, priority);
 
-        boolean first = true;
         response.append(bestDatewc.getDateTime().toDate().getTime() + ",");
-        String prefix = "|";
+        String prefix = "";
         for (String s : bestDatewc.getConflicts()) {
-            if (!first) {
-                response.append(prefix + s);
-                first = false;
-            } else {
-                response.append(s);
-            }
-
+            response.append(prefix + s);
+            prefix = "|";
         }
 
         return response.toString();
@@ -98,16 +95,12 @@ public class EventController {
 
         List<String> conflicts = scheduler.getConflictingEvents(u, e);
 
-        String prefix = "|";
-        boolean first = true;
+        String prefix = "";
+
         StringBuilder response = new StringBuilder();
         for (String s : conflicts) {
-            if (!first) {
-                response.append(prefix + s);
-                first = false;
-            } else {
-                response.append(s);
-            }
+            response.append(prefix + s);
+            prefix = "|";
         }
 
         return response.toString();
@@ -151,27 +144,11 @@ public class EventController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getpendingevents")
     @ResponseBody
-    public List<PlanitEventWithConflicts> getPendingEvents(HttpServletRequest request) {
+    public List<PlanitEvent> getPendingEvents(HttpServletRequest request) {
         String userid = request.getParameter("userid");
-        ArrayList<PlanitEvent> pendingEventsForUser = userRepository.findPendingEventsForUser(userid);
-        User u = userRepository.findOne(userid);
-
-        List<PlanitEventWithConflicts> returnEvents = new ArrayList<>();
-        //List<PlanitEvent> returnEvents = new ArrayList<>();
-
-        for (PlanitEvent planitEvent : pendingEventsForUser) {
-            PlanitEventWithConflicts pc = new PlanitEventWithConflicts(planitEvent);
-            List<String> conflicts = scheduler.getConflictingEvents(u, planitEvent);
-            Iterable<PlanitEvent> all = eventRepository.findAll(conflicts);
-            for(PlanitEvent p : all)
-            {
-                pc.addConflict(p);
-            }
-        }
-
-        return returnEvents;
-
+        return userRepository.findPendingEventsForUser(userid);
     }
+
 
 
 }

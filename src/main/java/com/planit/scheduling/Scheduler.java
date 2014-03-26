@@ -106,7 +106,7 @@ public class Scheduler {
                 for (int i = 0; i < meanwhile.size(); i++) {
                     List<String> theseIds = meanwhile.get(i).getIds();
                     for(String thisId : theseIds){
-                        if (thisId != null && !conflicts.contains(thisId)) {
+                        if (thisId != null && !thisId.equals("") && !conflicts.contains(thisId)) {
                             conflicts.add(thisId);
                         }
                     }
