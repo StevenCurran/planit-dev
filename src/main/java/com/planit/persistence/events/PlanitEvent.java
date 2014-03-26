@@ -35,7 +35,7 @@ public class PlanitEvent {
     private Set<UserEvent> userEvents = new HashSet<>();
 
     public PlanitEvent() {
-
+    
     }
 
     public PlanitEvent(Event googleEvent, User p) {

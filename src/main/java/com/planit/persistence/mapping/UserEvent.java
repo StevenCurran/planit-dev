@@ -6,6 +6,7 @@ package com.planit.persistence.mapping;
 
 import com.planit.persistence.events.PlanitEvent;
 import com.planit.persistence.registration.User;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -26,10 +27,12 @@ public class UserEvent {
 
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "userId", referencedColumnName = "userId")
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "eventId", referencedColumnName = "eventId")
+    @JsonIgnore
     private PlanitEvent event;
 
 
@@ -41,6 +44,7 @@ public class UserEvent {
         this.status = status;
     }
 
+    @JsonIgnore
     public User getUser() {
         return user;
     }
@@ -49,6 +53,7 @@ public class UserEvent {
         this.user = user;
     }
 
+    @JsonIgnore
     public PlanitEvent getEvent() {
         return event;
     }
