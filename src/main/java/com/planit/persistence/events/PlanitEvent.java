@@ -1,6 +1,7 @@
 package com.planit.persistence.events;
 
 import com.google.api.services.calendar.model.Event;
+import com.planit.persistence.mapping.UserEvent;
 import com.planit.persistence.registration.User;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;

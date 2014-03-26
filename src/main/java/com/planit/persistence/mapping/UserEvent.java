@@ -27,5 +27,5 @@ public class UserEvent {
     
     @ManyToOne
     @PrimaryKeyJoinColumn(name="eventId", referencedColumnName="eventId")
-    private Event event;
+    private PlanitEvent event;
 }

@@ -2,6 +2,7 @@ package com.planit.persistence.registration;
 
 import com.google.api.services.plus.model.Person;
 import com.planit.persistence.events.PlanitEvent;
+import com.planit.persistence.mapping.UserEvent;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
