@@ -48,14 +48,14 @@ public class PlanitEvent {
         this.timeZone = googleEvent.getStart().getTimeZone();
         this.priority = 3;
 
-        addAttendee(p);
+        //addAttendee(p);
     }
 
     public static List<PlanitEvent> getEvents(List<Event> events, User person) {
         List<PlanitEvent> pE = new ArrayList<>();
         for (Event event : events) {
             PlanitEvent p = new PlanitEvent(event, person);
-            p.addAttendee(person);
+            //p.addAttendee(person);
             pE.add(p);
         }
         return pE;
@@ -101,15 +101,13 @@ public class PlanitEvent {
         return timeZone;
     }
 
+/*
     public Set<User> getAttendees() {
         //TODO:FIX
         //return attendees;
         return null;
     }
 
-    public String getEventId() {
-        return eventId;
-    }
 
     public Set<User> getCategories() {
         //TODO:FIX
@@ -121,6 +119,12 @@ public class PlanitEvent {
         //TODO:FIX
         //attendees.add(u);
     }
+
+*/
+    public String getEventId() {
+        return eventId;
+    }
+
 
     public long getDurationInHalfHours() {
         DateTime startDateJ = new DateTime(this.startDate);
