@@ -200,12 +200,12 @@ public class GoogleController {
         String deviceId = request.getHeader("deviceid");
 
         User one = userRepository.findOne(providerId);
-        if (one != null) {
+        if (one != null && (deviceId != null || deviceId != "")) {
             one.setDeviceId(deviceId);
             userRepository.save(one);
+            System.out.println("Registereing :" + one.getFirstName() + " " + one.getLastName() + " ID: " + providerId + " With device ID: " + deviceId);
         }
 
-        System.out.println("Registereing :" + one.getFirstName() + " " + one.getLastName() + " ID: " + providerId);
         gcmService.sendRegConfirm(this.person.getFirstName() + " " + this.person.getLastName(), deviceId);
     }
 
