@@ -144,9 +144,26 @@ public class EventController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getpendingevents")
     @ResponseBody
-    public List<PlanitEvent> getPendingEvents(HttpServletRequest request) {
+    public List<PlanitEventWithConflicts> getPendingEvents(HttpServletRequest request) {
         String userid = request.getParameter("userid");
-        return userRepository.findPendingEventsForUser(userid);
+        ArrayList<PlanitEvent> pendingEventsForUser = userRepository.findPendingEventsForUser(userid);
+        User u = userRepository.findOne(userid);
+
+        List<PlanitEventWithConflicts> returnEvents = new ArrayList<>();
+        //List<PlanitEvent> returnEvents = new ArrayList<>();
+
+        for (PlanitEvent planitEvent : pendingEventsForUser) {
+            PlanitEventWithConflicts pc = new PlanitEventWithConflicts(planitEvent);
+            List<String> conflicts = scheduler.getConflictingEvents(u, planitEvent);
+            Iterable<PlanitEvent> all = eventRepository.findAll(conflicts);
+            for(PlanitEvent p : all)
+            {
+                pc.addConflict(p);
+            }
+        }
+
+        return returnEvents;
+
     }
 
 
