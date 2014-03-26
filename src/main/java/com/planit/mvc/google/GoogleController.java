@@ -145,10 +145,6 @@ public class GoogleController {
 
         }
 
-        System.out.println("Saving person!");
-        userRepository.save(this.person);
-        System.out.println("Person Saved!!");
-
         System.out.println("We have found " + events.size() + " events!!!");
         taskExecutor.execute(new EventPersistenceTask(this.person, events, eventRepository));
 
@@ -158,8 +154,9 @@ public class GoogleController {
             return profile;
         }
 
-
-
+        System.out.println("Saving person!");
+        userRepository.save(this.person);
+        System.out.println("Person Saved!!");
 
         return profile;
     }
