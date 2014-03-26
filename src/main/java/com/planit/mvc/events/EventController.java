@@ -74,18 +74,11 @@ public class EventController {
         StringBuilder response = new StringBuilder();
         DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees, startDate, endDate, duration, priority);
 
-        boolean first = true;
         response.append(bestDatewc.getDateTime().toDate().getTime() + ",");
-        String prefix = "|";
+        String prefix = "";
         for (String s : bestDatewc.getConflicts()) {
-            if(!first){
-                response.append(prefix + s);
-                first = false;
-            }
-            else{
-                response.append(s);
-            }
-
+            response.append(prefix + s);
+            prefix = "|";
         }
 
         return response.toString();
@@ -102,17 +95,12 @@ public class EventController {
 
         List<String> conflicts = scheduler.getConflictingEvents(u, e);
 
-        String prefix = "|";
-        boolean first = true;
+        String prefix = "";
+
         StringBuilder response = new StringBuilder();
         for (String s : conflicts) {
-            if(!first){
-                response.append(prefix + s);
-                first = false;
-            }
-            else{
-                response.append(s);
-            }
+            response.append(prefix + s);
+            prefix = "|";
         }
 
         return response.toString();
