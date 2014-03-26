@@ -16,7 +16,7 @@ import java.util.*;
 @Table(name = "\"Event\"")
 public class PlanitEvent {
 
-    @Id
+
     private String eventId;
 
     private String name;
@@ -47,14 +47,25 @@ public class PlanitEvent {
         this.timeZone = googleEvent.getStart().getTimeZone();
         this.priority = 3;
 
-        addAttendee(p);
+        eventUsers eUsers = new eventUsers();
+        eUsers.setPlanitEvent(this);
+        eUsers.setUser(p);
+        eUsers.setStatus(1);
+
+        addAttendee(eUsers);
     }
 
     public static List<PlanitEvent> getEvents(List<Event> events, User person) {
         List<PlanitEvent> pE = new ArrayList<>();
         for (Event event : events) {
             PlanitEvent p = new PlanitEvent(event, person);
-            p.addAttendee(person);
+
+            eventUsers eUsers = new eventUsers();
+            eUsers.setPlanitEvent(p);
+            eUsers.setUser(person);
+            eUsers.setStatus(1);
+
+            p.addAttendee(eUsers);
             pE.add(p);
         }
         return pE;
@@ -105,6 +116,7 @@ public class PlanitEvent {
         return attendees;
     }
 
+    @Id
     public String getEventId() {
         return eventId;
     }
@@ -113,8 +125,8 @@ public class PlanitEvent {
         return this.attendees;
     }
 
-    public void addAttendee(User u) {
-        attendees.add(new eventUsers());
+    public void addAttendee(eventUsers u) {
+        attendees.add(u);
     }
 
     public long getDurationInHalfHours() {

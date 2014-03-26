@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "eventUsers")
 @AssociationOverrides({
-        @AssociationOverride(name = "pk.PlanitEvent",joinColumns = @JoinColumn(name = "STOCK_ID")),
-        @AssociationOverride(name = "pk.User",joinColumns = @JoinColumn(name = "eventId"))
+        @AssociationOverride(name = "pk.planitEvent",joinColumns = @JoinColumn(name = "eventId")),
+        @AssociationOverride(name = "pk.user",joinColumns = @JoinColumn(name = "userId"))
 })
 public class eventUsers {
 
@@ -45,6 +45,15 @@ public class eventUsers {
     }
 
     private eventUsersId pk = new eventUsersId();
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     private int status = 1;
 
 
