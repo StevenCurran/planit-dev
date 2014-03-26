@@ -206,7 +206,8 @@ public class GoogleController {
             System.out.println("Registereing :" + one.getFirstName() + " " + one.getLastName() + " ID: " + providerId + " With device ID: " + deviceId);
         }
 
-        gcmService.sendRegConfirm(this.person.getFirstName() + " " + this.person.getLastName(), deviceId);
+        //gcmService.sendRegConfirm(this.person.getFirstName() + " " + this.person.getLastName(), deviceId);
+        // Turn this off as it doesnt really matter for now.
     }
 
 

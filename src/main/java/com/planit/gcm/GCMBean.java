@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 public class GCMBean {
 
     private final String API_KEY = "AIzaSyA0zAyEc47gZn1tpM6luIa4OjflCEeNd84";
-    private String locaid = "APA91bFACSU7tHHlg1R4n5Pbb9K3TQiJln4vFHNATjTHHS19-uOk5WpuIWbZs13SaerMrTDe_6bq4ZTVrb08V2QCSDfRAdT46QXsdsO5oQnvuw3G3l1sCKe4m_0KCLixyVn3t8DC-ccJxwc5jzk_LL1JM5-gggaimQ";
+    private String locaid = "APA91bFy1CG5D_BVNAfZRwIAd105Iws8jWK3WO_PrtuXKXwzzy4svlXK9ai0cKVQuZVMR4hEfcjhkY-rMwxk3Lu8xdkSRgBZ_b3HJUd9TUxT2IxJfFCZAc5Wm-9ntffsSjweXmJ3D6RT7EatnRonyE91YBtCy9LvIw";
 
     private GCMProxySender sender;
     private QuotaGuardProxyAuthenticator proxy;

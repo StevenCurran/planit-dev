@@ -70,15 +70,13 @@ public class EventController {
         return getBestDate(users, pStartDate, pEndDate, pDuration, pPriority);
     }
 
-    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority)
-    {
+    public String getBestDate(List<User> attendees, DateTime startDate, DateTime endDate, int duration, int priority) {
         StringBuilder response = new StringBuilder();
         DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees, startDate, endDate, duration, priority);
 
         response.append(bestDatewc.getDateTime() + ",");
         String prefix = "";
-        for(String s : bestDatewc.getConflicts())
-        {
+        for (String s : bestDatewc.getConflicts()) {
             response.append(prefix + s);
             prefix = "|";
         }
@@ -95,13 +93,12 @@ public class EventController {
         User u = userRepository.findOne(userId);
         PlanitEvent e = eventRepository.findOne(eventId);
 
-        List<String> conflicts = scheduler.getConflictingEvents(u,e);
+        List<String> conflicts = scheduler.getConflictingEvents(u, e);
 
         String prefix = "";
 
         StringBuilder response = new StringBuilder();
-        for(String s : conflicts)
-        {
+        for (String s : conflicts) {
             response.append(prefix + s);
             prefix = "|";
         }
@@ -109,7 +106,7 @@ public class EventController {
         return response.toString();
     }
 
-        @RequestMapping(method = RequestMethod.POST, value = "/addevent")
+    @RequestMapping(method = RequestMethod.POST, value = "/addevent")
     @ResponseBody
     public void addEvent(HttpServletRequest request) {
         String attendees = request.getParameter("attendees");
@@ -117,6 +114,7 @@ public class EventController {
         String startDate = request.getParameter("startDate");
         String endDate = request.getParameter("endDate");
         String eventName = request.getParameter("eventname");
+
 
         List<String> deviceIds = new ArrayList<>();
 
@@ -138,7 +136,7 @@ public class EventController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getevent")
     @ResponseBody
-    public PlanitEvent getEvents(HttpServletRequest request){
+    public PlanitEvent getEvents(HttpServletRequest request) {
         String eventId = request.getParameter("eventid");
         return eventRepository.findOne(eventId);
     }
