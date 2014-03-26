@@ -80,7 +80,7 @@ public class EventController {
         for (String s : bestDatewc.getConflicts()) {
             if(!first){
                 response.append(prefix + s);
-                first = true;
+                first = false;
             }
             else{
                 response.append(s);
@@ -108,7 +108,7 @@ public class EventController {
         for (String s : conflicts) {
             if(!first){
                 response.append(prefix + s);
-                first = true;
+                first = false;
             }
             else{
                 response.append(s);
