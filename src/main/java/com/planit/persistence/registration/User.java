@@ -18,17 +18,17 @@ public class User {
 
     @Id
     private String userId;
-
+    
     private String firstName;
     private String lastName;
     private String profileUrl;
     private String email;
     private String location;
     private String deviceId;
-
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "attendees")
-    private Set<PlanitEvent> events = new HashSet<>();
+    //private Set<PlanitEvent> events = new HashSet<>();
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userId", cascade=CascadeType.ALL)
+    private Set<UserEvent> userEvents = new HashSet<>();
 
     protected User() {
     }
@@ -39,7 +39,7 @@ public class User {
         this.profileUrl = profileUrl;
         this.email = email;
         this.location = location;
-        this.userId = providerId;
+        this.userId = providerId;      
     }
 
     public User(Person person) {
@@ -53,6 +53,10 @@ public class User {
         this.userId = person.getId();
     }
 
+	public Set<UserEvent> getUserEvents() {
+		return userEvents;
+	}
+    
     public String getLocation() {
         return location;
     }
@@ -77,8 +81,6 @@ public class User {
         this.userId = userId;
     }
 
-    //Allow Git
-
     public String getEmail() {
         return email;
     }
@@ -87,10 +89,9 @@ public class User {
         this.email = email;
     }
 
-    @JsonIgnore
-    public Set<PlanitEvent> getEvents() {
-        return this.events;
-    }
+    //public Set<PlanitEvent> getEvents() {
+    //    return this.events;
+    //}
 
     public String getProviderId() {
         return userId;

@@ -17,7 +17,7 @@ public class PlanitEvent {
 
     @Id
     private String eventId;
-
+    
     private String name;
     private Date startDate;
     private Date endDate;
@@ -26,13 +26,10 @@ public class PlanitEvent {
     private String location;
     private String timeZone;
     private int priority;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "event_user", joinColumns = {
-            @JoinColumn(name = "eventId", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "userId",
-                    nullable = false, updatable = false)})
-    private Set<User> attendees = new HashSet<>();
+    //private Set<User> attendees = new HashSet<>();
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventId", cascade=CascadeType.ALL)
+    private Set<UserEvent> userEvents = new HashSet<>();
 
     public PlanitEvent() {
 
@@ -104,7 +101,9 @@ public class PlanitEvent {
     }
 
     public Set<User> getAttendees() {
-        return attendees;
+        //TODO:FIX
+        //return attendees;
+        return null;
     }
 
     public String getEventId() {
@@ -112,11 +111,14 @@ public class PlanitEvent {
     }
 
     public Set<User> getCategories() {
-        return this.attendees;
+        //TODO:FIX
+        //return this.attendees;
+        return null;
     }
 
     public void addAttendee(User u) {
-        attendees.add(u);
+        //TODO:FIX
+        //attendees.add(u);
     }
 
     public long getDurationInHalfHours() {
@@ -148,8 +150,8 @@ public class PlanitEvent {
     }
 
     public int getNumberOfAttendees() {
-        return attendees.size();
+        //TODO:FIX
+        //return attendees.size();
+        return 1;
     }
-
-
 }
