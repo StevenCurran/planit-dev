@@ -22,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "select distinct e from PlanitEvent e inner join e.userEvents att where att.userId = ?1")
     public ArrayList<PlanitEvent> findEventsForUser(String userId);
 
+    @Query(value = "select distinct e from PlanitEvent e inner join e.userEvents att where att.userId = ?1 and att.status = 0")
+    public ArrayList<PlanitEvent> findPendingEventsForUser(String userId);
+
 /*
 
 select distinct e.* from "Event" e inner join "event_user" eu on eu.eventid = e.eventid inner join "User" u on u.userid = eu.userid where u.userid = '114700121025537154047'

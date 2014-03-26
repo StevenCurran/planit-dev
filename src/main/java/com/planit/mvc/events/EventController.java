@@ -142,4 +142,13 @@ public class EventController {
         return eventRepository.findOne(eventId);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getpendingevents")
+    @ResponseBody
+    public List<PlanitEvent> getPendingEvents(HttpServletRequest request) {
+        String userid = request.getParameter("userid");
+        return userRepository.findPendingEventsForUser(userid);
+    }
+
+
+
 }
