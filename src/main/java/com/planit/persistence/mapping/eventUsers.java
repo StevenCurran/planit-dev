@@ -9,15 +9,15 @@ import com.planit.persistence.registration.User;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "eventUsers")
-@AssociationOverrides({
-        @AssociationOverride(name = "pk.planitEvent",joinColumns = @JoinColumn(name = "eventId")),
-        @AssociationOverride(name = "pk.user",joinColumns = @JoinColumn(name = "userId"))
-})
+//@Entity
+//@Table(name = "eventUsers")
+//@AssociationOverrides({
+//        @AssociationOverride(name = "pk.planitEvent",joinColumns = @JoinColumn(name = "eventId")),
+//        @AssociationOverride(name = "pk.user",joinColumns = @JoinColumn(name = "userId"))
+//})
 public class eventUsers {
 
-    @EmbeddedId
+//    @EmbeddedId
     public eventUsersId getPk() {
         return pk;
     }

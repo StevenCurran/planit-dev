@@ -10,10 +10,10 @@ import com.planit.persistence.registration.User;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
-@Embeddable
+//@Embeddable
 public class eventUsersId {
 
-    @ManyToOne
+//    @ManyToOne
     public PlanitEvent getPlanitEvent() {
         return planitEvent;
     }
@@ -22,7 +22,7 @@ public class eventUsersId {
         this.planitEvent = planitEvent;
     }
 
-    @ManyToOne
+//    @ManyToOne
     public User getUser() {
         return user;
     }
