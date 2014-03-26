@@ -59,7 +59,10 @@ public class UserSchedule {
 
     public void displaySchedule() {
         System.out.println("-----------------------");
+        int x = 0;
         for (BlockVector bv : schedule) {
+            System.out.println("Block #=" + x);
+            x++;
             for (int i = 0; i < bv.dimension; i++) {
                 System.out.print(bv.getAtIndex(i) + " ");
             }

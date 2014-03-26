@@ -109,8 +109,6 @@ public class Scheduler {
                     }
                 }
             }
-
-
         }
 
         DateTime bestStartTime = startDate.plusMinutes(minIndex * 30);
