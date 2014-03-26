@@ -1,6 +1,7 @@
 package com.planit.persistence.events;
 
 import com.google.api.services.calendar.model.Event;
+import com.planit.persistence.mapping.eventUsers;
 import com.planit.persistence.registration.User;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -27,12 +28,8 @@ public class PlanitEvent {
     private String timeZone;
     private int priority;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "event_user", joinColumns = {
-            @JoinColumn(name = "eventId", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "userId",
-                    nullable = false, updatable = false)})
-    private Set<User> attendees = new HashSet<>();
+
+    private Set<eventUsers> attendees = new HashSet<>();
 
     public PlanitEvent() {
 
@@ -103,7 +100,8 @@ public class PlanitEvent {
         return timeZone;
     }
 
-    public Set<User> getAttendees() {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy ="pk.PlanitEvent",cascade = CascadeType.ALL )
+    public Set<eventUsers> getAttendees() {
         return attendees;
     }
 
@@ -111,12 +109,12 @@ public class PlanitEvent {
         return eventId;
     }
 
-    public Set<User> getCategories() {
+    public Set<eventUsers> getCategories() {
         return this.attendees;
     }
 
     public void addAttendee(User u) {
-        attendees.add(u);
+        attendees.add(new eventUsers());
     }
 
     public long getDurationInHalfHours() {
