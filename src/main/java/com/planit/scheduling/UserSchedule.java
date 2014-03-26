@@ -62,10 +62,16 @@ public class UserSchedule {
         int x = 0;
         for (BlockVector bv : schedule) {
             System.out.println("Block #=" + x);
-            x++;
-            for (int i = 0; i < bv.dimension; i++) {
-                System.out.print(x + ":" + bv.getAtIndex(i) + "    ");
+
+            for(String id : bv.getIds())
+            {
+                System.out.print(x + ":" + id + ",");
             }
+            System.out.print("@");
+            for (int i = 0; i < bv.dimension; i++) {
+                System.out.print(":" + x + ":" + bv.getAtIndex(i) + "    ");
+            }
+            x++;
             System.out.println("");
             System.out.println("");
         }
