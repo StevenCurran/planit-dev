@@ -96,6 +96,8 @@ public class Scheduler {
         List<String> conflicts = new LinkedList<String>();
 
         for (UserSchedule schedule : schedules) {
+            System.out.println("========= USER SCHEDULE CURRENTLY BEING ANALYSED:");
+            schedule.displaySchedule();
             List<BlockVector> meanwhile = schedule.getScheduleWindow(minIndex, minIndex + duration-1);
             if(meanwhile != null){
                 for (int i = 0; i < meanwhile.size(); i++) {
