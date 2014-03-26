@@ -65,7 +65,10 @@ public class Scheduler {
         List<UserSchedule> schedules = new LinkedList<UserSchedule>();
 
         for (User attendee : attendees) {
-            UserSchedule s = new UserSchedule(attendee, startDate, endDate, userRepository.findEventsForUser(attendee.getProviderId()));
+            List<PlanitEvent> e = userRepository.findEventsForUser(attendee.getProviderId());
+            System.out.println("THIS USER'S EVENTS ARE ");
+            System.out.println(e);
+            UserSchedule s = new UserSchedule(attendee, startDate, endDate, e);
             schedules.add(s);
         }
 

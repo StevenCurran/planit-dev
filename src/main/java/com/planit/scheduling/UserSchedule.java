@@ -64,7 +64,7 @@ public class UserSchedule {
             System.out.println("Block #=" + x);
             x++;
             for (int i = 0; i < bv.dimension; i++) {
-                System.out.print(bv.getAtIndex(i) + " ");
+                System.out.print(x + ":" + bv.getAtIndex(i) + "    ");
             }
             System.out.println("");
             System.out.println("");
