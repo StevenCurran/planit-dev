@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -152,20 +153,21 @@ public class EventController {
         List<PlanitEventWithConflicts> returnEvents = new ArrayList<>();
         //List<PlanitEvent> returnEvents = new ArrayList<>();
 
+        System.out.println("Pending events size:" + pendingEventsForUser.size());
         for (PlanitEvent planitEvent : pendingEventsForUser) {
             PlanitEventWithConflicts pc = new PlanitEventWithConflicts(planitEvent);
             List<String> conflicts = scheduler.getConflictingEvents(u, planitEvent);
+            System.out.println("Title: " + planitEvent.getName() + " Has conflicts: " + conflicts.size());
             Iterable<PlanitEvent> all = eventRepository.findAll(conflicts);
             for(PlanitEvent p : all)
             {
                 pc.addConflict(p);
             }
+            System.out.println("Size is now: " + pc.getConflictingEvents().size());
+            returnEvents.add(pc);
         }
 
+
         return returnEvents;
-
     }
-
-
-
 }
