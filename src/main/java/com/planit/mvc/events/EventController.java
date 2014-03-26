@@ -75,7 +75,7 @@ public class EventController {
         StringBuilder response = new StringBuilder();
         DateTimeWithConflicts bestDatewc = scheduler.getBestDate(attendees, startDate, endDate, duration, priority);
 
-        response.append(bestDatewc.getDateTime().toDate().getTime() + ",");
+        response.append(bestDatewc.getDateTime().minusHours(1).toDate().getTime() + ",");
         String prefix = "";
         for (String s : bestDatewc.getConflicts()) {
             response.append(prefix + s);
