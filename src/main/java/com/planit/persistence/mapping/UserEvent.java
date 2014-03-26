@@ -14,27 +14,11 @@ import javax.persistence.*;
 @IdClass(UserEventId.class)
 public class UserEvent {
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
-    }
 
     @Id
     private String userId;
     @Id
     private String eventId;
-
 
 
     @Column(name = "status")
@@ -72,4 +56,21 @@ public class UserEvent {
     public void setEvent(PlanitEvent event) {
         this.event = event;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
 }

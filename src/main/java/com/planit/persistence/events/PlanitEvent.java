@@ -28,7 +28,9 @@ public class PlanitEvent {
     private String timeZone;
     private int priority;
     //private Set<User> attendees = new HashSet<>();
-    
+
+
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "eventId", cascade=CascadeType.ALL)
     private Set<UserEvent> userEvents = new HashSet<>();
 
@@ -170,5 +172,13 @@ public class PlanitEvent {
         //TODO:FIX
         //return attendees.size();
         return 1;
+    }
+
+    public Set<UserEvent> getUserEvents() {
+        return userEvents;
+    }
+
+    public void setUserEvents(Set<UserEvent> userEvents) {
+        this.userEvents = userEvents;
     }
 }
