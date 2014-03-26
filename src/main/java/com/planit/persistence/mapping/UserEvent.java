@@ -14,18 +14,62 @@ import javax.persistence.*;
 @IdClass(UserEventId.class)
 public class UserEvent {
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
     @Id
     private String userId;
     @Id
     private String eventId;
+
+
+
     @Column(name = "status")
     private int status;
-    
+
     @ManyToOne
-    @PrimaryKeyJoinColumn(name="userId", referencedColumnName="userId")
+    @PrimaryKeyJoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
-    
+
     @ManyToOne
-    @PrimaryKeyJoinColumn(name="eventId", referencedColumnName="eventId")
+    @PrimaryKeyJoinColumn(name = "eventId", referencedColumnName = "eventId")
     private PlanitEvent event;
+
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public PlanitEvent getEvent() {
+        return event;
+    }
+
+    public void setEvent(PlanitEvent event) {
+        this.event = event;
+    }
 }

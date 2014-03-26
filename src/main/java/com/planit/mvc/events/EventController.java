@@ -129,6 +129,7 @@ public class EventController {
         User currentUser = userRepository.findOne(userid);
         //notificationRepository.save(new Notification());
         Message m = new Message.Builder().addData("message_type", "gcm").addData("data", currentUser.getFirstName() + " has added you to an event!: " + eventName).addData("planit_message", "confirm").build();
+        //add in the events
 
         gcmBean.sendMessageToUsers(m, deviceIds);
 

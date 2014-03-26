@@ -49,6 +49,18 @@ public class PlanitEvent {
         this.priority = 3;
 
         //addAttendee(p);
+
+        addAttendeeNew(p, 0);
+    }
+
+    private void addAttendeeNew(User p, int status) {
+        UserEvent ue = new UserEvent();
+        ue.setEvent(this);
+        ue.setUser(p);
+        ue.setEventId(this.eventId);
+        ue.setUserId(p.getUserId());
+        ue.setStatus(status);
+        userEvents.add(ue);
     }
 
     public static List<PlanitEvent> getEvents(List<Event> events, User person) {
